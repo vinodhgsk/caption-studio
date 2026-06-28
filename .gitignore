@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.development
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Docker
+docker-compose.override.yml
+
+# Prisma
+prisma/*.db
+prisma/*.db-journal
+
+# Turbo
+.turbo/
+
+# Logs
+*.log
+logs/
+
+# OS
+Thumbs.db
+pnpm-lock.yaml
+packages/shared-kernel/build.txt
+packages/shared-kernel/test_out.txt
+services/trading-svc/test_out.json
+packages/shared-kernel/test_out.json
+services/trading-svc/ts_errors.txt
+services/trading-svc/test_out_v2.json
+package-lock.json
+*package-lock.json
+*.png
+package-lock.json

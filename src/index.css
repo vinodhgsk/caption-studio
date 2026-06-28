@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold-50: #FFF9E6;
+  --color-gold-100: #FFF2CC;
+  --color-gold-400: #FFF5B8;
+  --color-gold-500: #F3C63F;
+  --color-gold-700: #9E7810;
+}
+
+/* Customize webkit scrollbars for the editor layout */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b; /* zinc-950 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a; /* zinc-800 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46; /* zinc-700 */
+}
