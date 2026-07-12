@@ -17,7 +17,7 @@ import { EditControls } from './EditControls'
 import { TimeRuler } from './TimeRuler'
 import { TrackHeader } from './TrackHeader'
 import { TrackLane } from './TrackLane'
-import { KeyframeLanes } from './KeyframeLane'
+//import { KeyframeLanes } from './KeyframeLane'
 import { useBundlePath } from './useBundlePath'
 import { ZoomControl } from './ZoomControl'
 import { AddTrackControl } from './AddTrackControl'
@@ -39,7 +39,7 @@ interface TimelineProps {
 }
 
 /** Uniform lane / header row height (px) so headers and lanes line up. */
-const LANE_HEIGHT_PX = 90
+const LANE_HEIGHT_PX = 52
 /** Width of the left track-header column (px). */
 const HEADER_WIDTH_PX = 160
 /**
@@ -56,16 +56,8 @@ const HEADER_WIDTH_PX = 160
 export function Timeline({ project, height }: TimelineProps): JSX.Element {
   const zoom = useTimelineStore((s) => s.zoom)
   const playhead = useTimelineStore((s) => s.playhead)
-  const selection = useTimelineStore((s) => s.selection)
   const splitSelectedAtPlayhead = useTimelineStore((s) => s.splitSelectedAtPlayhead)
   const rippleDeleteSelected = useTimelineStore((s) => s.rippleDeleteSelected)
-
-  // Keyframe lanes (P8.6, Doc 11) render ONLY for a single selected clip, below
-  // the track lanes — hidden otherwise so existing timeline rendering is intact.
-  const selectedClip =
-    selection.length === 1
-      ? project.tracks.flatMap((t) => t.clips).find((c) => c.id === selection[0]) ?? null
-      : null
 
   // Beat markers (P8.12, Doc 11): distinct timeline-time beats across all audio
   // clips, drawn as faint guides so clip/caption edges can be aligned to music.
@@ -282,8 +274,7 @@ export function Timeline({ project, height }: TimelineProps): JSX.Element {
               </div>
             )}
 
-            {/* Keyframe lanes for the single selected clip (P8.6, Doc 11). */}
-            {selectedClip !== null && <KeyframeLanes clip={selectedClip} pxPerSec={zoom} />}
+
 
             {/* Beat markers (P8.12): faint vertical guides at detected beats. */}
             {beatMarkers.map((t) => (

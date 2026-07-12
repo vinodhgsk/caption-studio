@@ -199,8 +199,10 @@ export default function Editor(): JSX.Element {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
-            className="h-1 w-full cursor-row-resize bg-line hover:bg-accent/70 active:bg-accent transition-colors shrink-0 z-20"
-          />
+            className="relative z-20 flex h-2 w-full cursor-row-resize items-center justify-center bg-transparent shrink-0 group -my-1"
+          >
+            <div className="h-px w-full bg-line group-hover:bg-accent/70 group-active:bg-accent transition-colors" />
+          </div>
           <TimelineRegion height={timelineHeight} />
         </div>
         <PanelContainer />
