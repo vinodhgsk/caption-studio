@@ -7,6 +7,7 @@ import type { Aspect } from './aspect'
 export interface NewProjectDialogProps {
   open: boolean
   onClose: () => void
+  defaultAspect?: Aspect
 }
 
 const ASPECTS: readonly Aspect[] = ['16:9', '9:16', '1:1']
@@ -33,7 +34,7 @@ const inputBase =
  * location. On Create it scaffolds via the store, applies the chosen settings,
  * refreshes the listing, then closes. Routing to the editor is P2.5.
  */
-export default function NewProjectDialog({ open, onClose }: NewProjectDialogProps): JSX.Element {
+export default function NewProjectDialog({ open, onClose, defaultAspect }: NewProjectDialogProps): JSX.Element {
   const createProject = useProjectStore((s) => s.createProject)
   const nameRef = useRef<HTMLInputElement>(null)
 
@@ -49,7 +50,7 @@ export default function NewProjectDialog({ open, onClose }: NewProjectDialogProp
   useEffect(() => {
     if (!open) return
     setName('')
-    setAspect('16:9')
+    setAspect(defaultAspect ?? '16:9')
     setFps(30)
     setLanguage('ta')
     setLocation('local')
