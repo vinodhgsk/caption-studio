@@ -63,6 +63,20 @@ export function __clearWaveformCache(): void {
   inFlight.clear()
 }
 
+/** Clear all cached + in-flight waveforms for a specific project bundle. */
+export function clearProjectWaveforms(bundleAbs: string): void {
+  for (const key of cache.keys()) {
+    if (key.startsWith(`${bundleAbs}::`)) {
+      cache.delete(key)
+    }
+  }
+  for (const key of inFlight.keys()) {
+    if (key.startsWith(`${bundleAbs}::`)) {
+      inFlight.delete(key)
+    }
+  }
+}
+
 /**
  * React hook: resolve a clip's decoded waveform, decoding ONCE per (bundle,
  * mediaRef) via the shared cache. Returns the cached waveform synchronously on a

@@ -3,6 +3,7 @@ import type { Project, ProjectRef, ProjectMeta, StorageLocation } from '../../sh
 import type { FontManifest } from '../../shared/fontParse'
 import { resolutionForAspect, type Aspect } from '../routes/home/aspect'
 import { rehydrateProjectFonts } from './fonts/importFont'
+import { clearProjectWaveforms } from '../routes/editor/timeline/waveformCache'
 import {
   type Command,
   type CommandStack,
@@ -365,6 +366,13 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
       if (!result.ok) {
         set({ listError: result.error })
         return { ok: false, error: result.error }
+      }
+      // Clear in-memory waveform cache for this project
+      clearProjectWaveforms(ref.path)
+      // Close project if it is currently open
+      const { currentRef, closeProject } = get()
+      if (currentRef !== null && currentRef.id === ref.id && currentRef.location === ref.location) {
+        closeProject()
       }
       await get().loadProjects(ref.location)
       return { ok: true }
