@@ -1,0 +1,8 @@
+# Forced-alignment sidecar deps (CPU, Apple Silicon / Linux). Installed into
+# resources/pyalign/.venv by setup.sh — NOT committed. torch/torchaudio must be
+# a matching pair; pip resolves the latest compatible build for the Python used.
+torch
+torchaudio
+uroman
+numpy
+soundfile

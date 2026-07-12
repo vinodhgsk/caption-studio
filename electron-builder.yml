@@ -1,0 +1,15 @@
+appId: com.captionstudio.app
+productName: Caption Studio
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**/*
+  - package.json
+mac:
+  target: dmg
+  category: public.app-category.video
+win:
+  target: nsis
+linux:
+  target: AppImage

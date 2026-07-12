@@ -1,0 +1,54 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`M6.2 gradient + per-word color resolved-fill snapshot > snapshots the resolved gradient fill + per-word color spec > gradient+per-word fill spec 1`] = `
+{
+  "base": {
+    "angleDeg": 45,
+    "opacity": 0.9,
+    "stops": [
+      {
+        "color": "#ff0000",
+        "offset": 0,
+      },
+      {
+        "color": "#00ff00",
+        "offset": 0.5,
+      },
+      {
+        "color": "#0000ff",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "perWord": [
+    {
+      "color": null,
+      "word": "HELLO",
+    },
+    {
+      "color": "rgba(255, 204, 0, 0.9)",
+      "word": "WORLD",
+    },
+    {
+      "color": null,
+      "word": "CAPTION",
+    },
+  ],
+}
+`;
+
+exports[`M6.5 Indic shaping + grapheme-cluster preview↔export parity > snapshots the exact cluster sequences (catches a future ICU/shaper drift) > indic cluster sequences 1`] = `
+{
+  "क्षि": [
+    "क्षि",
+  ],
+  "கி": [
+    "கி",
+  ],
+  "க்ஷி": [
+    "க்",
+    "ஷி",
+  ],
+}
+`;

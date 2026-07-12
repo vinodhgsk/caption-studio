@@ -1,0 +1,51 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(npm install *)",
+      "Bash(npm ci)",
+      "Bash(npm --workspace * run *)",
+      "Bash(npm --workspace * test *)",
+      "Bash(npm ls *)",
+      "Bash(npx tsc *)",
+      "Bash(npx vitest *)",
+      "Bash(npx tsx *)",
+      "Bash(git *)",
+      "Bash(node *)",
+      "Bash(python3 *)",
+      "Bash(ffmpeg *)",
+      "Bash(ffprobe *)",
+      "Bash(mkdir -p *)",
+      "Skill(run)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-edit.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-build-feature.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "autopilot": {
+    "continueAcrossPhases": true,
+    "stopAtMilestones": false,
+    "gate": ".claude/hooks/post-build-feature.sh"
+  }
+}

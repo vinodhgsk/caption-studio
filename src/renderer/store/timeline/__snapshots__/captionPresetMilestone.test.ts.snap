@@ -1,0 +1,1986 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(bhakthi-gold) is stable > clip-style:bhakthi-gold 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.2,
+      "easing": "easeOut",
+      "preset": "pop",
+    },
+    "reveal": {
+      "easing": "easeOut",
+      "mode": "word",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#FFF9CC",
+          "offset": 0,
+        },
+        {
+          "color": "#FFD600",
+          "offset": 0.3,
+        },
+        {
+          "color": "#C88800",
+          "offset": 0.65,
+        },
+        {
+          "color": "#7A4400",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Sans Tamil",
+        "serif",
+      ],
+      "family": "Noto Serif Tamil",
+      "italic": false,
+      "letterSpacing": 1,
+      "lineHeight": 1.15,
+      "size": 70,
+      "weight": 900,
+    },
+    "shadow": {
+      "angle": 135,
+      "blur": 0,
+      "color": "#3D1200",
+      "distance": 10,
+      "inner": false,
+      "long": true,
+      "opacity": 1,
+    },
+    "stroke": [
+      {
+        "color": "#1E0500",
+        "width": 10,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(bounce) is stable > clip-style:bounce 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.45,
+      "easing": "spring",
+      "preset": "bounce",
+    },
+    "reveal": {
+      "easing": "spring",
+      "mode": "word",
+      "staggerSec": 0.06,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#00e5ff",
+          "offset": 0,
+        },
+        {
+          "color": "#2962ff",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 0,
+      "lineHeight": 1.22,
+      "size": 50,
+      "weight": 800,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 12,
+      "color": "#001b3d",
+      "distance": 4,
+      "inner": false,
+      "long": false,
+      "opacity": 0.45,
+    },
+  },
+  "transformPatch": {
+    "y": 0,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(grand-temple-gold) is stable > clip-style:grand-temple-gold 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.2,
+      "easing": "easeOut",
+      "preset": "pop",
+    },
+    "reveal": {
+      "easing": "easeOut",
+      "mode": "word",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "effects": [
+      {
+        "enabled": true,
+        "intensity": 0.85,
+        "opacity": 1,
+        "params": {
+          "angle": 135,
+          "color": "#8B0000",
+          "depth": 22,
+        },
+        "type": "3d",
+      },
+      {
+        "enabled": true,
+        "intensity": 0.42,
+        "opacity": 0.9,
+        "params": {
+          "color": "#FF8C00",
+          "radius": 28,
+        },
+        "type": "glow",
+      },
+    ],
+    "fill": {
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#FFF8B0",
+          "offset": 0,
+        },
+        {
+          "color": "#FFE433",
+          "offset": 0.18,
+        },
+        {
+          "color": "#E89600",
+          "offset": 0.45,
+        },
+        {
+          "color": "#CC4A00",
+          "offset": 0.75,
+        },
+        {
+          "color": "#7A2000",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Sans Tamil",
+        "serif",
+      ],
+      "family": "Noto Serif Tamil",
+      "italic": false,
+      "letterSpacing": 2,
+      "lineHeight": 1.2,
+      "size": 72,
+      "weight": 900,
+    },
+    "stroke": [
+      {
+        "color": "#0F0200",
+        "width": 12,
+      },
+      {
+        "color": "#7A3800",
+        "width": 5,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(karaoke-highlight) is stable > clip-style:karaoke-highlight 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.2,
+      "easing": "easeOut",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "decoration": {
+      "background": {
+        "color": "#101820",
+        "opacity": 0.55,
+        "padding": 14,
+        "radius": 12,
+      },
+    },
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#ffffff",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 0,
+      "lineHeight": 1.25,
+      "size": 46,
+      "weight": 700,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 6,
+      "color": "#000000",
+      "distance": 2,
+      "inner": false,
+      "long": false,
+      "opacity": 0.5,
+    },
+    "stroke": [
+      {
+        "color": "#0a0a0a",
+        "width": 3,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(lower-third-game) is stable > clip-style:lower-third-game 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.35,
+      "easing": "easeOut",
+      "preset": "slide-up",
+    },
+    "out": {
+      "durationSec": 0.25,
+      "easing": "easeIn",
+      "preset": "slide-down",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "decoration": {
+      "background": {
+        "color": "#0a0e14",
+        "opacity": 0.8,
+        "padding": 16,
+        "radius": 8,
+      },
+    },
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#39ff14",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 0.5,
+      "lineHeight": 1.2,
+      "size": 40,
+      "weight": 800,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 10,
+      "color": "#ff00d4",
+      "distance": 0,
+      "inner": false,
+      "long": false,
+      "opacity": 0.55,
+    },
+    "stroke": [
+      {
+        "color": "#0a0a0a",
+        "width": 2,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(lower-third-sports) is stable > clip-style:lower-third-sports 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.25,
+      "easing": "easeOut",
+      "preset": "slide-up",
+    },
+    "out": {
+      "durationSec": 0.2,
+      "easing": "easeIn",
+      "preset": "slide-down",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "decoration": {
+      "background": {
+        "color": "#d50000",
+        "opacity": 0.92,
+        "padding": 16,
+        "radius": 6,
+      },
+    },
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#ffffff",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": true,
+      "letterSpacing": 0,
+      "lineHeight": 1.15,
+      "size": 42,
+      "weight": 900,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 6,
+      "color": "#000000",
+      "distance": 3,
+      "inner": false,
+      "long": false,
+      "opacity": 0.5,
+    },
+    "stroke": [
+      {
+        "color": "#000000",
+        "width": 2,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(lower-third-tech) is stable > clip-style:lower-third-tech 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.3,
+      "easing": "easeOut",
+      "preset": "slide-left",
+    },
+    "out": {
+      "durationSec": 0.2,
+      "easing": "easeIn",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "decoration": {
+      "background": {
+        "color": "#101826",
+        "opacity": 0.85,
+        "padding": 18,
+        "radius": 4,
+      },
+    },
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#e6f7ff",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 1.5,
+      "lineHeight": 1.25,
+      "size": 38,
+      "weight": 600,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 8,
+      "color": "#00b3ff",
+      "distance": 0,
+      "inner": false,
+      "long": false,
+      "opacity": 0.4,
+    },
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(lower-third-trending) is stable > clip-style:lower-third-trending 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.32,
+      "easing": "easeOut",
+      "preset": "slide-left",
+    },
+    "out": {
+      "durationSec": 0.2,
+      "easing": "easeIn",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "decoration": {
+      "background": {
+        "color": "#15080f",
+        "opacity": 0.78,
+        "padding": 16,
+        "radius": 14,
+      },
+    },
+    "fill": {
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#ff2d8b",
+          "offset": 0,
+        },
+        {
+          "color": "#ff8a00",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 0.5,
+      "lineHeight": 1.2,
+      "size": 40,
+      "weight": 800,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 10,
+      "color": "#000000",
+      "distance": 2,
+      "inner": false,
+      "long": false,
+      "opacity": 0.5,
+    },
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(pop-by-word) is stable > clip-style:pop-by-word 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.16,
+      "easing": "easeOut",
+      "preset": "pop",
+    },
+    "reveal": {
+      "easing": "easeOut",
+      "mode": "word",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#ffffff",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 0.5,
+      "lineHeight": 1.2,
+      "size": 52,
+      "weight": 800,
+    },
+    "shadow": {
+      "angle": 45,
+      "blur": 10,
+      "color": "#000000",
+      "distance": 5,
+      "inner": false,
+      "long": false,
+      "opacity": 0.55,
+    },
+    "stroke": [
+      {
+        "color": "#000000",
+        "width": 5,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(sarvam-bhakti-gold) is stable > clip-style:sarvam-bhakti-gold 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.2,
+      "easing": "easeOut",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "effects": [
+      {
+        "enabled": true,
+        "intensity": 1,
+        "opacity": 1,
+        "params": {
+          "angle": 100,
+          "color": "#A85D08",
+          "depth": 30,
+        },
+        "type": "3d",
+      },
+      {
+        "enabled": true,
+        "intensity": 1,
+        "opacity": 0.7,
+        "params": {
+          "angle": 90,
+          "highlight": "#FFFEF2",
+          "shadow": "#6B3A00",
+          "size": 2,
+        },
+        "type": "bevel",
+      },
+    ],
+    "fill": {
+      "angle": 90,
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#FFFDF0",
+          "offset": 0,
+        },
+        {
+          "color": "#FFE98A",
+          "offset": 0.1,
+        },
+        {
+          "color": "#F8C63C",
+          "offset": 0.28,
+        },
+        {
+          "color": "#E59310",
+          "offset": 0.46,
+        },
+        {
+          "color": "#B06A08",
+          "offset": 0.54,
+        },
+        {
+          "color": "#F2B01C",
+          "offset": 0.66,
+        },
+        {
+          "color": "#D07E0A",
+          "offset": 0.84,
+        },
+        {
+          "color": "#7A4A06",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Sans Tamil",
+        "serif",
+      ],
+      "family": "Noto Serif Tamil",
+      "italic": false,
+      "letterSpacing": 0,
+      "lineHeight": 1.1,
+      "size": 144,
+      "weight": 900,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 16,
+      "color": "#1A0E00",
+      "distance": 8,
+      "inner": false,
+      "long": false,
+      "opacity": 0.55,
+    },
+    "stroke": [
+      {
+        "color": "#2A1400",
+        "width": 12,
+      },
+      {
+        "color": "#7F3B10",
+        "width": 4,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(sarvam-bhakti-gold-3d) is stable > clip-style:sarvam-bhakti-gold-3d 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.2,
+      "easing": "easeOut",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "effects": [
+      {
+        "enabled": true,
+        "intensity": 1,
+        "opacity": 1,
+        "params": {
+          "angle": 100,
+          "color": "#A85D08",
+          "depth": 34,
+        },
+        "type": "3d",
+      },
+      {
+        "enabled": true,
+        "intensity": 1,
+        "opacity": 0.72,
+        "params": {
+          "angle": 90,
+          "highlight": "#FFFEF2",
+          "shadow": "#6B3A00",
+          "size": 3,
+        },
+        "type": "bevel",
+      },
+    ],
+    "fill": {
+      "angle": 90,
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#FFFDF0",
+          "offset": 0,
+        },
+        {
+          "color": "#FFE98A",
+          "offset": 0.1,
+        },
+        {
+          "color": "#F8C63C",
+          "offset": 0.28,
+        },
+        {
+          "color": "#E59310",
+          "offset": 0.46,
+        },
+        {
+          "color": "#B06A08",
+          "offset": 0.54,
+        },
+        {
+          "color": "#F2B01C",
+          "offset": 0.66,
+        },
+        {
+          "color": "#D07E0A",
+          "offset": 0.84,
+        },
+        {
+          "color": "#7A4A06",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Sans Tamil",
+        "sans-serif",
+      ],
+      "family": "Baloo Thambi 2",
+      "italic": false,
+      "letterSpacing": 0,
+      "lineHeight": 1.05,
+      "size": 150,
+      "weight": 800,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 16,
+      "color": "#1A0E00",
+      "distance": 8,
+      "inner": false,
+      "long": false,
+      "opacity": 0.55,
+    },
+    "stroke": [
+      {
+        "color": "#2A1400",
+        "width": 12,
+      },
+      {
+        "color": "#7F3B10",
+        "width": 4,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(tiktok-classic) is stable > clip-style:tiktok-classic 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.18,
+      "easing": "easeOut",
+      "preset": "pop",
+    },
+    "reveal": {
+      "easing": "easeOut",
+      "mode": "word",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#ffffff",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 0,
+      "lineHeight": 1.2,
+      "size": 48,
+      "weight": "bold",
+    },
+    "shadow": {
+      "angle": 45,
+      "blur": 8,
+      "color": "#000000",
+      "distance": 4,
+      "inner": false,
+      "long": false,
+      "opacity": 0.6,
+    },
+    "stroke": [
+      {
+        "color": "#000000",
+        "width": 4,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(title-card-game) is stable > clip-style:title-card-game 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.45,
+      "easing": "spring",
+      "preset": "zoom-in",
+    },
+    "out": {
+      "durationSec": 0.25,
+      "easing": "easeIn",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#39ff14",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 1,
+      "lineHeight": 1.1,
+      "size": 88,
+      "weight": 900,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 24,
+      "color": "#ff00d4",
+      "distance": 0,
+      "inner": false,
+      "long": false,
+      "opacity": 0.7,
+    },
+    "stroke": [
+      {
+        "color": "#0a0a0a",
+        "width": 5,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(title-card-sports) is stable > clip-style:title-card-sports 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.3,
+      "easing": "easeOut",
+      "preset": "zoom-in",
+    },
+    "out": {
+      "durationSec": 0.2,
+      "easing": "easeIn",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#ffffff",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": true,
+      "letterSpacing": 0,
+      "lineHeight": 1.1,
+      "size": 92,
+      "weight": 900,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 14,
+      "color": "#000000",
+      "distance": 4,
+      "inner": false,
+      "long": false,
+      "opacity": 0.6,
+    },
+    "stroke": [
+      {
+        "color": "#d50000",
+        "width": 6,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(title-card-tech) is stable > clip-style:title-card-tech 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.4,
+      "easing": "easeOut",
+      "preset": "scale-up",
+    },
+    "out": {
+      "durationSec": 0.25,
+      "easing": "easeIn",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#e6f7ff",
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 4,
+      "lineHeight": 1.15,
+      "size": 80,
+      "weight": 700,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 18,
+      "color": "#00b3ff",
+      "distance": 0,
+      "inner": false,
+      "long": false,
+      "opacity": 0.55,
+    },
+  },
+  "transformPatch": {
+    "y": 0,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(title-card-trending) is stable > clip-style:title-card-trending 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.42,
+      "easing": "spring",
+      "preset": "scale-up",
+    },
+    "out": {
+      "durationSec": 0.25,
+      "easing": "easeIn",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "fill": {
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#ff2d8b",
+          "offset": 0,
+        },
+        {
+          "color": "#ff8a00",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Serif Tamil",
+        "Baloo Thambi 2",
+        "Catamaran",
+        "Mukta Malar",
+        "Anek Tamil",
+        "Hind Madurai",
+        "Pavanam",
+        "Inter",
+        "sans-serif",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 1,
+      "lineHeight": 1.1,
+      "size": 84,
+      "weight": 900,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 20,
+      "color": "#000000",
+      "distance": 2,
+      "inner": false,
+      "long": false,
+      "opacity": 0.5,
+    },
+    "stroke": [
+      {
+        "color": "#1a0610",
+        "width": 3,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": -0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(typewriter) is stable > clip-style:typewriter 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0,
+      "easing": "linear",
+      "preset": "none",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "character",
+      "staggerSec": 0.045,
+    },
+  },
+  "text": {
+    "align": "center",
+    "decoration": {
+      "background": {
+        "color": "#000000",
+        "opacity": 0.65,
+        "padding": 16,
+        "radius": 6,
+      },
+    },
+    "fill": {
+      "opacity": 1,
+      "type": "solid",
+      "value": "#ffd166",
+    },
+    "font": {
+      "bold": false,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Sans Mono",
+        "JetBrains Mono",
+        "monospace",
+      ],
+      "family": "Noto Sans Tamil",
+      "italic": false,
+      "letterSpacing": 1,
+      "lineHeight": 1.4,
+      "size": 40,
+      "weight": "normal",
+    },
+  },
+  "transformPatch": {
+    "y": -0.35,
+  },
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(bhakthi-gold) is stable > draw-spec:bhakthi-gold 1`] = `
+{
+  "background": null,
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#FFF9CC",
+        "offset": 0,
+      },
+      {
+        "color": "#FFD600",
+        "offset": 0.3,
+      },
+      {
+        "color": "#C88800",
+        "offset": 0.65,
+      },
+      {
+        "color": "#7A4400",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "900 70px "Noto Serif Tamil", "Noto Sans Tamil", serif",
+  "fontSizePx": 70,
+  "highlight": null,
+  "letterSpacing": 1,
+  "lineHeight": 1.15,
+  "shadow": {
+    "angleDeg": 135,
+    "blur": 0,
+    "color": "rgba(61, 18, 0, 1)",
+    "distance": 10,
+    "kind": "long",
+    "offset": {
+      "x": -7.071067811865475,
+      "y": 7.0710678118654755,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(30, 5, 0, 1)",
+      "width": 10,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(bounce) is stable > draw-spec:bounce 1`] = `
+{
+  "background": null,
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#00e5ff",
+        "offset": 0,
+      },
+      {
+        "color": "#2962ff",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "800 50px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 50,
+  "highlight": null,
+  "letterSpacing": 0,
+  "lineHeight": 1.22,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 12,
+    "color": "rgba(0, 27, 61, 0.45)",
+    "distance": 4,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 4,
+    },
+  },
+  "strike": null,
+  "stroke": [],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(grand-temple-gold) is stable > draw-spec:grand-temple-gold 1`] = `
+{
+  "background": null,
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#FFF8B0",
+        "offset": 0,
+      },
+      {
+        "color": "#FFE433",
+        "offset": 0.18,
+      },
+      {
+        "color": "#E89600",
+        "offset": 0.45,
+      },
+      {
+        "color": "#CC4A00",
+        "offset": 0.75,
+      },
+      {
+        "color": "#7A2000",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "900 72px "Noto Serif Tamil", "Noto Sans Tamil", serif",
+  "fontSizePx": 72,
+  "highlight": null,
+  "letterSpacing": 2,
+  "lineHeight": 1.2,
+  "shadow": null,
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(15, 2, 0, 1)",
+      "width": 12,
+    },
+    {
+      "color": "rgba(122, 56, 0, 1)",
+      "width": 5,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(karaoke-highlight) is stable > draw-spec:karaoke-highlight 1`] = `
+{
+  "background": {
+    "color": "rgba(16, 24, 32, 0.55)",
+    "paddingX": 14,
+    "paddingY": 14,
+    "radius": 12,
+  },
+  "fill": {
+    "color": "rgba(255, 255, 255, 1)",
+    "type": "solid",
+  },
+  "font": "700 46px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 46,
+  "highlight": null,
+  "letterSpacing": 0,
+  "lineHeight": 1.25,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 6,
+    "color": "rgba(0, 0, 0, 0.5)",
+    "distance": 2,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 2,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(10, 10, 10, 1)",
+      "width": 3,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(lower-third-game) is stable > draw-spec:lower-third-game 1`] = `
+{
+  "background": {
+    "color": "rgba(10, 14, 20, 0.8)",
+    "paddingX": 16,
+    "paddingY": 16,
+    "radius": 8,
+  },
+  "fill": {
+    "color": "rgba(57, 255, 20, 1)",
+    "type": "solid",
+  },
+  "font": "800 40px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 40,
+  "highlight": null,
+  "letterSpacing": 0.5,
+  "lineHeight": 1.2,
+  "shadow": null,
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(10, 10, 10, 1)",
+      "width": 2,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(lower-third-sports) is stable > draw-spec:lower-third-sports 1`] = `
+{
+  "background": {
+    "color": "rgba(213, 0, 0, 0.92)",
+    "paddingX": 16,
+    "paddingY": 16,
+    "radius": 6,
+  },
+  "fill": {
+    "color": "rgba(255, 255, 255, 1)",
+    "type": "solid",
+  },
+  "font": "italic 900 42px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 42,
+  "highlight": null,
+  "letterSpacing": 0,
+  "lineHeight": 1.15,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 6,
+    "color": "rgba(0, 0, 0, 0.5)",
+    "distance": 3,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 3,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(0, 0, 0, 1)",
+      "width": 2,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(lower-third-tech) is stable > draw-spec:lower-third-tech 1`] = `
+{
+  "background": {
+    "color": "rgba(16, 24, 38, 0.85)",
+    "paddingX": 18,
+    "paddingY": 18,
+    "radius": 4,
+  },
+  "fill": {
+    "color": "rgba(230, 247, 255, 1)",
+    "type": "solid",
+  },
+  "font": "600 38px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 38,
+  "highlight": null,
+  "letterSpacing": 1.5,
+  "lineHeight": 1.25,
+  "shadow": null,
+  "strike": null,
+  "stroke": [],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(lower-third-trending) is stable > draw-spec:lower-third-trending 1`] = `
+{
+  "background": {
+    "color": "rgba(21, 8, 15, 0.78)",
+    "paddingX": 16,
+    "paddingY": 16,
+    "radius": 14,
+  },
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#ff2d8b",
+        "offset": 0,
+      },
+      {
+        "color": "#ff8a00",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "800 40px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 40,
+  "highlight": null,
+  "letterSpacing": 0.5,
+  "lineHeight": 1.2,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 10,
+    "color": "rgba(0, 0, 0, 0.5)",
+    "distance": 2,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 2,
+    },
+  },
+  "strike": null,
+  "stroke": [],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(pop-by-word) is stable > draw-spec:pop-by-word 1`] = `
+{
+  "background": null,
+  "fill": {
+    "color": "rgba(255, 255, 255, 1)",
+    "type": "solid",
+  },
+  "font": "800 52px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 52,
+  "highlight": null,
+  "letterSpacing": 0.5,
+  "lineHeight": 1.2,
+  "shadow": {
+    "angleDeg": 45,
+    "blur": 10,
+    "color": "rgba(0, 0, 0, 0.55)",
+    "distance": 5,
+    "kind": "drop",
+    "offset": {
+      "x": 3.5355339059327378,
+      "y": 3.5355339059327373,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(0, 0, 0, 1)",
+      "width": 5,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(sarvam-bhakti-gold) is stable > draw-spec:sarvam-bhakti-gold 1`] = `
+{
+  "background": null,
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#FFFDF0",
+        "offset": 0,
+      },
+      {
+        "color": "#FFE98A",
+        "offset": 0.1,
+      },
+      {
+        "color": "#F8C63C",
+        "offset": 0.28,
+      },
+      {
+        "color": "#E59310",
+        "offset": 0.46,
+      },
+      {
+        "color": "#B06A08",
+        "offset": 0.54,
+      },
+      {
+        "color": "#F2B01C",
+        "offset": 0.66,
+      },
+      {
+        "color": "#D07E0A",
+        "offset": 0.84,
+      },
+      {
+        "color": "#7A4A06",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "900 144px "Noto Serif Tamil", "Noto Sans Tamil", serif",
+  "fontSizePx": 144,
+  "highlight": null,
+  "letterSpacing": 0,
+  "lineHeight": 1.1,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 16,
+    "color": "rgba(26, 14, 0, 0.55)",
+    "distance": 8,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 8,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(42, 20, 0, 1)",
+      "width": 12,
+    },
+    {
+      "color": "rgba(127, 59, 16, 1)",
+      "width": 4,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(sarvam-bhakti-gold-3d) is stable > draw-spec:sarvam-bhakti-gold-3d 1`] = `
+{
+  "background": null,
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#FFFDF0",
+        "offset": 0,
+      },
+      {
+        "color": "#FFE98A",
+        "offset": 0.1,
+      },
+      {
+        "color": "#F8C63C",
+        "offset": 0.28,
+      },
+      {
+        "color": "#E59310",
+        "offset": 0.46,
+      },
+      {
+        "color": "#B06A08",
+        "offset": 0.54,
+      },
+      {
+        "color": "#F2B01C",
+        "offset": 0.66,
+      },
+      {
+        "color": "#D07E0A",
+        "offset": 0.84,
+      },
+      {
+        "color": "#7A4A06",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "800 150px "Baloo Thambi 2", "Noto Sans Tamil", sans-serif",
+  "fontSizePx": 150,
+  "highlight": null,
+  "letterSpacing": 0,
+  "lineHeight": 1.05,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 16,
+    "color": "rgba(26, 14, 0, 0.55)",
+    "distance": 8,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 8,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(42, 20, 0, 1)",
+      "width": 12,
+    },
+    {
+      "color": "rgba(127, 59, 16, 1)",
+      "width": 4,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(tiktok-classic) is stable > draw-spec:tiktok-classic 1`] = `
+{
+  "background": null,
+  "fill": {
+    "color": "rgba(255, 255, 255, 1)",
+    "type": "solid",
+  },
+  "font": "bold 48px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 48,
+  "highlight": null,
+  "letterSpacing": 0,
+  "lineHeight": 1.2,
+  "shadow": {
+    "angleDeg": 45,
+    "blur": 8,
+    "color": "rgba(0, 0, 0, 0.6)",
+    "distance": 4,
+    "kind": "drop",
+    "offset": {
+      "x": 2.8284271247461903,
+      "y": 2.82842712474619,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(0, 0, 0, 1)",
+      "width": 4,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(title-card-game) is stable > draw-spec:title-card-game 1`] = `
+{
+  "background": null,
+  "fill": {
+    "color": "rgba(57, 255, 20, 1)",
+    "type": "solid",
+  },
+  "font": "900 88px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 88,
+  "highlight": null,
+  "letterSpacing": 1,
+  "lineHeight": 1.1,
+  "shadow": null,
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(10, 10, 10, 1)",
+      "width": 5,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(title-card-sports) is stable > draw-spec:title-card-sports 1`] = `
+{
+  "background": null,
+  "fill": {
+    "color": "rgba(255, 255, 255, 1)",
+    "type": "solid",
+  },
+  "font": "italic 900 92px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 92,
+  "highlight": null,
+  "letterSpacing": 0,
+  "lineHeight": 1.1,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 14,
+    "color": "rgba(0, 0, 0, 0.6)",
+    "distance": 4,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 4,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(213, 0, 0, 1)",
+      "width": 6,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(title-card-tech) is stable > draw-spec:title-card-tech 1`] = `
+{
+  "background": null,
+  "fill": {
+    "color": "rgba(230, 247, 255, 1)",
+    "type": "solid",
+  },
+  "font": "700 80px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 80,
+  "highlight": null,
+  "letterSpacing": 4,
+  "lineHeight": 1.15,
+  "shadow": null,
+  "strike": null,
+  "stroke": [],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(title-card-trending) is stable > draw-spec:title-card-trending 1`] = `
+{
+  "background": null,
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#ff2d8b",
+        "offset": 0,
+      },
+      {
+        "color": "#ff8a00",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "900 84px "Noto Sans Tamil", "Noto Serif Tamil", "Baloo Thambi 2", Catamaran, "Mukta Malar", "Anek Tamil", "Hind Madurai", Pavanam, Inter, sans-serif",
+  "fontSizePx": 84,
+  "highlight": null,
+  "letterSpacing": 1,
+  "lineHeight": 1.1,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 20,
+    "color": "rgba(0, 0, 0, 0.5)",
+    "distance": 2,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 2,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(26, 6, 16, 1)",
+      "width": 3,
+    },
+  ],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(typewriter) is stable > draw-spec:typewriter 1`] = `
+{
+  "background": {
+    "color": "rgba(0, 0, 0, 0.65)",
+    "paddingX": 16,
+    "paddingY": 16,
+    "radius": 6,
+  },
+  "fill": {
+    "color": "rgba(255, 209, 102, 1)",
+    "type": "solid",
+  },
+  "font": "normal 40px "Noto Sans Tamil", "Noto Sans Mono", "JetBrains Mono", monospace",
+  "fontSizePx": 40,
+  "highlight": null,
+  "letterSpacing": 1,
+  "lineHeight": 1.4,
+  "shadow": null,
+  "strike": null,
+  "stroke": [],
+  "underline": null,
+}
+`;

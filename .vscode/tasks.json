@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "gate: post-edit (typecheck + lint)",
+      "type": "shell",
+      "command": "bash .github/hooks/post-edit.sh",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "gate: build/feature (tests + parity)",
+      "type": "shell",
+      "command": "bash .github/hooks/post-build-feature.sh",
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "gate: pre-commit",
+      "type": "shell",
+      "command": "bash .github/hooks/pre-commit.sh",
+      "problemMatcher": [],
+      "group": "test"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "repository": "caption-studio-knowledge",
+  "standard": "EKPS-2.0",
+  "version": "2.0.0",
+  "packages": [
+    { "id": "000_foundation",          "path": "000_foundation",          "version": "2.0.0", "status": "Active", "dependsOn": [] },
+    { "id": "100_product_captioning",  "path": "100_product_captioning",  "version": "2.0.0", "status": "Active", "dependsOn": ["000_foundation"] },
+    { "id": "200_engineering",         "path": "200_engineering",         "version": "2.0.0", "status": "Active", "dependsOn": ["000_foundation", "100_product_captioning"] },
+    { "id": "300_ai_factory",          "path": "300_ai_factory",          "version": "2.0.0", "status": "Active", "dependsOn": ["000_foundation", "200_engineering"] },
+    { "id": "400_governance",          "path": "400_governance",          "version": "2.0.0", "status": "Active", "dependsOn": ["000_foundation"] },
+    { "id": "500_operations",          "path": "500_operations",          "version": "2.0.0", "status": "Active", "dependsOn": ["000_foundation", "200_engineering"] }
+  ]
+}
