@@ -4,29 +4,46 @@ import ProjectCardMenu from './ProjectCardMenu'
 
 export interface ProjectCardProps {
   project: ProjectMeta
-  /** Selecting the card opens the project. */
   onOpen?: (project: ProjectMeta) => void
-  /** Per-card menu actions (P2.4). Omitted in presentational contexts. */
   onDuplicate?: (project: ProjectMeta) => void
   onRename?: (project: ProjectMeta) => void
   onDelete?: (project: ProjectMeta) => void
   onReveal?: (project: ProjectMeta) => void
 }
 
-/**
- * Map a project aspect string to a Tailwind aspect-ratio class. Falls back to
- * 16:9 for missing/unknown values so the thumbnail region always has a shape.
- */
-function aspectClass(aspect: string | undefined): string {
+/** Aspect-specific gradient & accent colors — no hardcoded hex values, only Tailwind tokens */
+function aspectStyle(aspect: string | undefined): {
+  gradient: string
+  ringColor: string
+  aspectRatio: string
+} {
   switch (aspect) {
     case '9:16':
-      return 'aspect-[9/16]'
+      return {
+        gradient: 'from-purple-900/70 via-purple-800/30 to-surface-0/80',
+        ringColor: 'hover:ring-purple-500/40',
+        aspectRatio: 'aspect-[9/16]'
+      }
     case '1:1':
-      return 'aspect-square'
+      return {
+        gradient: 'from-emerald-900/70 via-teal-800/30 to-surface-0/80',
+        ringColor: 'hover:ring-emerald-500/40',
+        aspectRatio: 'aspect-square'
+      }
     case '16:9':
     default:
-      return 'aspect-video'
+      return {
+        gradient: 'from-blue-900/70 via-indigo-800/30 to-surface-0/80',
+        ringColor: 'hover:ring-blue-500/40',
+        aspectRatio: 'aspect-video'
+      }
   }
+}
+
+function locationLabel(location: ProjectMeta['location']): { text: string; tone: string } {
+  if (location === 'onedrive') return { text: 'OneDrive', tone: 'bg-accent/15 text-accent border-accent/25' }
+  if (location === 'synology') return { text: 'Synology', tone: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' }
+  return { text: 'Local', tone: 'bg-surface-2 text-text-secondary border-line' }
 }
 
 export default function ProjectCard({
@@ -39,6 +56,8 @@ export default function ProjectCard({
 }: ProjectCardProps): JSX.Element {
   const lastModified = formatLastModified(project.updatedAt)
   const duration = formatDuration(project.durationSec)
+  const { gradient, ringColor, aspectRatio } = aspectStyle(project.aspect)
+  const loc = locationLabel(project.location)
 
   const menuItems = [
     { key: 'open', label: 'Open', onSelect: () => onOpen?.(project) },
@@ -49,9 +68,11 @@ export default function ProjectCard({
   ]
 
   return (
-    <div className="group relative flex w-full flex-col overflow-hidden rounded-lg border border-line bg-surface-1 transition-all duration-300 hover:scale-[1.02] hover:border-accent hover:bg-surface-2 hover:shadow-xl focus-within:border-accent">
-      {/* Actions menu overlay */}
-      <div className="absolute right-2 top-2 z-10 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
+    <div
+      className={`group relative flex w-full flex-col overflow-hidden rounded-xl border border-line bg-surface-1 ring-2 ring-transparent transition-all duration-300 hover:border-accent/40 ${ringColor} hover:shadow-2xl hover:shadow-black/40 hover:-translate-y-0.5 focus-within:border-accent/40`}
+    >
+      {/* Context menu — appears on hover */}
+      <div className="absolute right-2 top-2 z-20 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
         <ProjectCardMenu label={`Actions for ${project.name}`} items={menuItems} />
       </div>
 
@@ -61,65 +82,64 @@ export default function ProjectCard({
         title={project.name}
         className="flex w-full flex-col text-left focus-visible:outline-none"
       >
-        {/* Thumbnail area with Aspect overlay & play button hover effect */}
-        <div className={`relative flex w-full items-center justify-center bg-surface-2 text-xs overflow-hidden ${aspectClass(project.aspect)}`}>
-          {/* Default Dark Slate Background */}
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-0/60 to-transparent z-0" />
-          
-          {/* Subtle aspect visual */}
-          <span className="text-[10px] uppercase font-bold tracking-wider text-text-muted/50 z-0">
-            {project.aspect ?? '16:9'} Slate
+        {/* ── Thumbnail canvas ── */}
+        <div className={`relative flex w-full items-center justify-center overflow-hidden bg-surface-2 ${aspectRatio}`}>
+          {/* Animated gradient layer */}
+          <div className={`absolute inset-0 bg-gradient-to-b ${gradient} transition-opacity duration-500 opacity-80 group-hover:opacity-100`} />
+
+          {/* Subtle grid overlay for depth */}
+          <div
+            className="absolute inset-0 opacity-[0.04] group-hover:opacity-[0.07] transition-opacity"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(255,255,255,1) 20px, rgba(255,255,255,1) 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,1) 20px, rgba(255,255,255,1) 21px)'
+            }}
+          />
+
+          {/* Aspect ratio label — centre watermark */}
+          <span className="relative z-10 select-none text-[11px] font-black tracking-[0.2em] text-white/20 group-hover:text-white/30 transition-colors uppercase">
+            {project.aspect ?? '16:9'}
           </span>
 
-          {/* Absolute Overlays */}
-          <div className="absolute left-2 top-2 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[9px] font-bold text-text-primary backdrop-blur-sm border border-white/5">
+          {/* Aspect badge — top left */}
+          <div className="absolute left-2 top-2 z-20 rounded-md bg-black/50 px-1.5 py-0.5 text-[9px] font-bold text-white backdrop-blur-sm border border-white/10">
             {project.aspect ?? '16:9'}
           </div>
 
-          {duration ? (
-            <div className="absolute right-2 bottom-2 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[9px] font-bold text-text-primary backdrop-blur-sm border border-white/5">
+          {/* Duration badge — bottom right */}
+          {duration && (
+            <div className="absolute bottom-2 right-2 z-20 rounded-md bg-black/50 px-1.5 py-0.5 text-[9px] font-bold text-white backdrop-blur-sm border border-white/10">
               {duration}
             </div>
-          ) : null}
+          )}
 
-          {/* Hover Play Button Overlay */}
-          <div className="absolute inset-0 z-0 flex items-center justify-center bg-black/30 opacity-0 transition-all duration-300 group-hover:opacity-100 backdrop-blur-[1px]">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/40 transform translate-y-2 transition-transform duration-300 group-hover:translate-y-0">
-              <svg className="h-4 w-4 fill-current ml-0.5" viewBox="0 0 24 24">
+          {/* Hover play overlay */}
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 opacity-0 transition-all duration-300 group-hover:opacity-100 backdrop-blur-[2px]">
+            <div className="flex h-11 w-11 translate-y-3 transform items-center justify-center rounded-full bg-accent shadow-xl shadow-accent/40 transition-transform duration-300 group-hover:translate-y-0">
+              <svg className="ml-0.5 h-5 w-5 fill-white" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
           </div>
         </div>
 
-        {/* Content Metadata Area */}
-        <div className="flex flex-col gap-1.5 p-3.5 z-10">
-          <div className="flex items-center justify-between gap-2">
-            <span className="truncate text-xs font-semibold text-text-primary group-hover:text-accent transition-colors">
+        {/* ── Metadata row ── */}
+        <div className="flex flex-col gap-1.5 p-3.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="line-clamp-1 flex-1 text-xs font-semibold text-text-primary group-hover:text-white transition-colors leading-snug">
               {project.name}
             </span>
-            <StorageBadge location={project.location} />
+            <span className={`shrink-0 rounded border px-1.5 py-0.5 text-[9px] font-bold ${loc.tone}`}>
+              {loc.text}
+            </span>
           </div>
-          <div className="flex items-center gap-2 text-[10px] text-text-secondary/70">
-            {lastModified ? <span>{lastModified}</span> : null}
-          </div>
+          {lastModified && (
+            <span className="text-[10px] text-text-muted leading-none">
+              {lastModified}
+            </span>
+          )}
         </div>
       </button>
     </div>
-  )
-}
-
-/**
- * Storage location chip. OneDrive uses an accent-tinted token treatment to read
- * as "synced/remote"; Local stays neutral. Tokens only — no hardcoded colors.
- */
-function StorageBadge({ location }: { location: ProjectMeta['location'] }): JSX.Element {
-  const isOneDrive = location === 'onedrive'
-  const label = isOneDrive ? 'Cloud' : 'Local'
-  const tone = isOneDrive
-    ? 'bg-accent/15 text-accent border border-accent/25'
-    : 'bg-surface-2 text-text-secondary border border-line'
-  return (
-    <span className={`shrink-0 rounded px-1.5 py-0.5 text-[9px] font-bold ${tone}`}>{label}</span>
   )
 }
