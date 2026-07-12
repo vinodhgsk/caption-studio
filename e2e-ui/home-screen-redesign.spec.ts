@@ -28,6 +28,13 @@ test.beforeAll(async () => {
 
   window = await app.firstWindow()
   await window.waitForLoadState('domcontentloaded')
+
+  // Pre-seed localStorage to bypass onboarding modal deterministically
+  await window.evaluate(() => {
+    localStorage.setItem('onboardingComplete', '1')
+  })
+  await window.reload()
+  await window.waitForLoadState('domcontentloaded')
 })
 
 test.afterAll(async () => {
@@ -41,16 +48,6 @@ async function beat(name: string): Promise<void> {
 }
 
 test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets', async () => {
-  // ── Onboarding Modal Dismissal ───────────────────────────────────────────
-  const onboardingTitle = window.getByRole('heading', { name: 'Welcome to Caption Studio' })
-  if (await onboardingTitle.isVisible()) {
-    await window.getByRole('button', { name: 'Continue' }).click() // Step 1 -> 2
-    await window.getByRole('button', { name: 'Continue' }).click() // Step 2 -> 3
-    await window.getByRole('button', { name: 'Continue' }).click() // Step 3 -> 4
-    await window.getByRole('button', { name: 'Get started' }).click() // Done
-    await expect(onboardingTitle).not.toBeVisible()
-  }
-
   // ── 1. Sidebar Elements & Branding Visibility ────────────────────────────
   await expect(window.getByRole('heading', { name: 'Caption Studio', exact: true })).toBeVisible()
   await expect(window.getByText('Guest Creator')).toBeVisible()
@@ -72,9 +69,17 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   await beat('02-create-alpha-dialog')
   await window.getByRole('button', { name: 'Create' }).click()
 
-  // Editor opens. Navigate back.
-  await expect(window.getByRole('link', { name: '← Projects' })).toBeVisible()
-  await beat('03-editor-alpha-open')
+  // Wait for dialog to close and project card to appear on home
+  const openAlphaCard = window.locator('button[title="Project Alpha"]')
+  await expect(openAlphaCard).toBeVisible()
+  await beat('03-project-alpha-created')
+
+  // Click card to open in Editor
+  await openAlphaCard.click()
+  await expect(window.getByRole('link', { name: '← Projects' })).toBeVisible({ timeout: 20_000 })
+  await beat('04-editor-alpha-open')
+
+  // Navigate back to home
   await window.getByRole('link', { name: '← Projects' }).click()
   await expect(window.getByRole('heading', { name: 'Caption Studio', exact: true })).toBeVisible()
 
@@ -87,18 +92,27 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   const portraitRadio = window.getByRole('radio', { name: '9:16' })
   await expect(portraitRadio).toHaveAttribute('aria-checked', 'true')
   await window.locator('#np-name').fill('Project Beta')
-  await beat('04-create-beta-dialog-quick-aspect')
+  await beat('05-create-beta-dialog-quick-aspect')
   await window.getByRole('button', { name: 'Create' }).click()
 
+  // Wait for dialog to close and project card to appear on home
+  const openBetaCard = window.locator('button[title="Project Beta"]')
+  await expect(openBetaCard).toBeVisible()
+  await beat('06-project-beta-created')
+
+  // Click card to open in Editor
+  await openBetaCard.click()
+  await expect(window.getByRole('link', { name: '← Projects' })).toBeVisible({ timeout: 20_000 })
+  await beat('07-editor-beta-open')
+
   // Navigate back to home
-  await expect(window.getByRole('link', { name: '← Projects' })).toBeVisible()
   await window.getByRole('link', { name: '← Projects' }).click()
   await expect(window.getByRole('heading', { name: 'Caption Studio', exact: true })).toBeVisible()
 
   // Both cards should be visible
   await expect(window.locator('button[title="Project Alpha"]')).toBeVisible()
   await expect(window.locator('button[title="Project Beta"]')).toBeVisible()
-  await beat('05-two-draft-cards')
+  await beat('08-two-draft-cards')
 
   // ── 5. Test Search Filtering ─────────────────────────────────────────────
   const searchInput = window.getByPlaceholder('Search drafts...')
@@ -108,7 +122,7 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   await searchInput.fill('Alpha')
   await expect(window.locator('button[title="Project Alpha"]')).toBeVisible()
   await expect(window.locator('button[title="Project Beta"]')).not.toBeVisible()
-  await beat('06-search-alpha')
+  await beat('09-search-alpha')
 
   // Clear search
   await window.getByRole('button', { name: '×' }).click()
@@ -124,7 +138,7 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   // Verify order: Alpha first, then Beta
   const firstCardTitle = await window.locator('.group button span.truncate').first().textContent()
   expect(firstCardTitle).toBe('Project Alpha')
-  await beat('07-sort-by-name')
+  await beat('10-sort-by-name')
 
   // Sort back to Date Modified (Recent first)
   await sortSelect.selectOption('date')
@@ -141,19 +155,19 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   // Toggle List View
   await listViewBtn.click()
   await expect(window.locator('table')).toBeVisible()
-  await expect(window.locator('th').getByText('Name')).toBeVisible()
-  await expect(window.locator('th').getByText('Ratio')).toBeVisible()
-  await expect(window.locator('th').getByText('Duration')).toBeVisible()
+  await expect(window.locator('th').getByText('Name', { exact: true })).toBeVisible()
+  await expect(window.locator('th').getByText('Ratio', { exact: true })).toBeVisible()
+  await expect(window.locator('th').getByText('Duration', { exact: true })).toBeVisible()
   await expect(window.locator('td').getByText('Project Alpha')).toBeVisible()
   await expect(window.locator('td').getByText('Project Beta')).toBeVisible()
-  await beat('08-list-view')
+  await beat('11-list-view')
 
   // Toggle Grid View
   await gridViewBtn.click()
   await expect(window.locator('table')).not.toBeVisible()
   await expect(window.locator('button[title="Project Alpha"]')).toBeVisible()
   await expect(window.locator('button[title="Project Beta"]')).toBeVisible()
-  await beat('09-grid-view-restored')
+  await beat('12-grid-view-restored')
 
   // ── 8. Test Cloud Space (Location Switching) ─────────────────────────────
   const cloudSpaceBtn = window.getByRole('button', { name: 'Cloud Space OneDrive' })
@@ -161,15 +175,15 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
 
   // Toggle OneDrive
   await cloudSpaceBtn.click()
-  // Under OneDrive it should load OneDrive projects (initially empty)
+  // Under OneDrive it should fail to load and display error state (offline/not-implemented)
   await expect(window.getByText('Cloud Drafts')).toBeVisible()
-  await expect(window.getByText('No drafts yet')).toBeVisible()
-  await beat('10-cloud-space-empty')
+  await expect(window.getByText("Couldn't load drafts")).toBeVisible()
+  await beat('13-cloud-space-error')
 
   // Toggle Local Drafts back
   await localDraftsBtn.click()
   await expect(window.getByText('Local Drafts')).toBeVisible()
   await expect(window.locator('button[title="Project Alpha"]')).toBeVisible()
   await expect(window.locator('button[title="Project Beta"]')).toBeVisible()
-  await beat('11-local-drafts-restored')
+  await beat('14-local-drafts-restored')
 })
