@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'C:\\Users\\vinod\\repos\\github\\caption-studio\\.codex\\hooks\\post-edit.sh'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'C:\\Users\\vinod\\repos\\github\\caption-studio\\.codex\\hooks\\post-build-feature.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}
