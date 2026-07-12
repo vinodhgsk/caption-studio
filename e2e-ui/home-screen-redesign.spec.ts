@@ -63,6 +63,7 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   await expect(window.getByRole('button', { name: '+ Start creating' })).toBeVisible()
   await expect(window.getByRole('button', { name: 'Local Drafts' })).toBeVisible()
   await expect(window.getByRole('button', { name: 'Cloud Space OneDrive' })).toBeVisible()
+  await expect(window.getByRole('button', { name: 'Synology NAS Synology' })).toBeVisible()
   await beat('01-sidebar-visible')
 
   // ── 2. Cancel Project Creation ──────────────────────────────────────────
@@ -177,7 +178,7 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   await expect(window.locator('button[title="Project Beta"]')).toBeVisible()
   await beat('12-grid-view-restored')
 
-  // ── 8. Test Cloud Space (Location Switching) ─────────────────────────────
+  // ── 8. Test Cloud Space (Location Switching - OneDrive) ──────────────────
   const cloudSpaceBtn = window.getByRole('button', { name: 'Cloud Space OneDrive' })
   const localDraftsBtn = window.getByRole('button', { name: 'Local Drafts' })
 
@@ -188,10 +189,19 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   await expect(window.getByText("Couldn't load drafts")).toBeVisible()
   await beat('13-cloud-space-error')
 
+  // ── 9. Test Synology NAS (Location Switching - Synology) ──────────────────
+  const synologyBtn = window.getByRole('button', { name: 'Synology NAS Synology' })
+
+  // Toggle Synology NAS
+  await synologyBtn.click()
+  // Fails with a "default folder SynologyDrive not found" error since Synology is absent in tests
+  await expect(window.getByText("Couldn't load drafts")).toBeVisible()
+  await beat('14-synology-space-error')
+
   // Toggle Local Drafts back
   await localDraftsBtn.click()
   await expect(window.getByRole('heading', { name: 'Local Drafts' })).toBeVisible()
   await expect(window.locator('button[title="Project Alpha"]')).toBeVisible()
   await expect(window.locator('button[title="Project Beta"]')).toBeVisible()
-  await beat('14-local-drafts-restored')
+  await beat('15-local-drafts-restored')
 })

@@ -16,7 +16,7 @@ export type { Clip, ClipTransform, ClipAudio, Keyframe, KeyframeProp, ClipKeyfra
 export { defaultTransform, defaultClipAudio, clipDuration, KEYFRAME_PROPS } from './project-schema'
 
 /** Where a project bundle physically lives. */
-export type StorageLocation = 'local' | 'onedrive'
+export type StorageLocation = 'local' | 'onedrive' | 'synology'
 
 /** Lightweight handle to a project bundle on a given storage target. */
 export interface ProjectRef {

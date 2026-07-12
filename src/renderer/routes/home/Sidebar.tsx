@@ -93,6 +93,36 @@ export default function Sidebar({
           </span>
         </button>
 
+        <button
+          type="button"
+          onClick={() => onLocationChange('synology')}
+          className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-xs font-medium transition-colors ${
+            currentLocation === 'synology'
+              ? 'bg-surface-2 text-accent'
+              : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary'
+          }`}
+        >
+          <span className="flex items-center gap-3">
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"
+              />
+            </svg>
+            <span>Synology NAS</span>
+          </span>
+          <span className="rounded bg-accent/20 px-1 py-0.5 text-[9px] font-bold text-accent">
+            Synology
+          </span>
+        </button>
+
         {/* Disabled Placeholder Navigation Items */}
         <div className="pt-4 pb-2">
           <span className="px-3 text-[10px] font-bold uppercase tracking-wider text-text-muted">

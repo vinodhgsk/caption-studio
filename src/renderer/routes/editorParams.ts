@@ -8,7 +8,7 @@ export interface EditorParams {
 
 /** Narrow a raw query value to a known `StorageLocation`, else null. */
 function asLocation(value: string | null): StorageLocation | null {
-  return value === 'local' || value === 'onedrive' ? value : null
+  return value === 'local' || value === 'onedrive' || value === 'synology' ? value : null
 }
 
 /**

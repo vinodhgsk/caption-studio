@@ -86,7 +86,7 @@ export function OnboardingModal({ onComplete }: OnboardingModalProps): JSX.Eleme
                 Where would you like to store your projects?
               </legend>
               <div className="flex flex-col gap-2">
-                {(['local', 'onedrive'] as const).map((loc, idx) => (
+                {(['local', 'onedrive', 'synology'] as const).map((loc, idx) => (
                   <label
                     key={loc}
                     className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors ${
@@ -105,7 +105,11 @@ export function OnboardingModal({ onComplete }: OnboardingModalProps): JSX.Eleme
                       autoFocus={idx === 0}
                     />
                     <span className="text-sm text-text-primary">
-                      {loc === 'local' ? 'Local storage (this Mac)' : 'OneDrive (cloud sync)'}
+                      {loc === 'local'
+                        ? 'Local storage'
+                        : loc === 'onedrive'
+                        ? 'OneDrive (cloud sync)'
+                        : 'Synology Drive (NAS sync)'}
                     </span>
                   </label>
                 ))}
@@ -173,7 +177,14 @@ export function OnboardingModal({ onComplete }: OnboardingModalProps): JSX.Eleme
               screen.
             </p>
             <ul className="mb-4 list-inside list-disc space-y-1 text-sm text-text-secondary">
-              <li>Storage: {storageLocation === 'local' ? 'Local (this Mac)' : 'OneDrive'}</li>
+              <li>
+                Storage:{' '}
+                {storageLocation === 'local'
+                  ? 'Local storage'
+                  : storageLocation === 'onedrive'
+                  ? 'OneDrive'
+                  : 'Synology Drive'}
+              </li>
               <li>
                 Language:{' '}
                 {LANGUAGES.find((l) => l.code === language)?.label ?? language}

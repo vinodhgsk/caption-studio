@@ -22,7 +22,8 @@ const LANGUAGES: ReadonlyArray<{ code: string; label: string }> = [
 ]
 const LOCATIONS: ReadonlyArray<{ code: StorageLocation; label: string }> = [
   { code: 'local', label: 'Local' },
-  { code: 'onedrive', label: 'OneDrive' }
+  { code: 'onedrive', label: 'OneDrive' },
+  { code: 'synology', label: 'Synology Drive' }
 ]
 
 const fieldLabel = 'mb-1 block text-sm font-medium text-text-secondary'

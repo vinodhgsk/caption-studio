@@ -20,6 +20,9 @@ import {
   createSyncedOneDriveProvider,
   detectOneDrivePath
 } from './OneDriveProvider'
+import {
+  createSyncedSynologyDriveProvider
+} from './SynologyProvider'
 
 /** Open-dialog filters for media import (P3.3): video + image extensions. */
 const MEDIA_DIALOG_FILTERS: Electron.FileFilter[] = [
@@ -72,6 +75,9 @@ function e2ePickOverride(envKey: string): string[] | null {
 export function getProvider(location: StorageLocation): StorageProvider {
   if (location === 'local') {
     return new LocalProvider(defaultLocalRoot())
+  }
+  if (location === 'synology') {
+    return createSyncedSynologyDriveProvider()
   }
   if (detectOneDrivePath() !== null) {
     return createSyncedOneDriveProvider()
