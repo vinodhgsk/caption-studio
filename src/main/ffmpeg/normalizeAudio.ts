@@ -14,6 +14,7 @@ import { spawn } from 'node:child_process'
 import { mkdir, stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 import { bundleLayout } from '../storage/bundle'
+import ffmpegPath from 'ffmpeg-static'
 
 /** Target sample rate (Hz) — whisper.cpp expects 16 kHz mono WAV (Doc 02). */
 export const STT_SAMPLE_RATE = 16000
@@ -73,7 +74,7 @@ async function mtimeMs(absPath: string): Promise<number | null> {
 
 /** FFmpeg binary to invoke. Overridable via `CAPTION_STUDIO_FFMPEG` for tests/CI. */
 function ffmpegBin(): string {
-  return process.env.CAPTION_STUDIO_FFMPEG ?? 'ffmpeg'
+  return process.env.CAPTION_STUDIO_FFMPEG ?? ffmpegPath ?? 'ffmpeg'
 }
 
 /** Spawn FFmpeg with `args`; resolve on exit 0, reject with stderr otherwise. */

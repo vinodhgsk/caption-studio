@@ -1,10 +1,11 @@
 import { spawn } from 'node:child_process'
 import { basename, join } from 'node:path'
 import { bundleLayout } from '../storage/bundle'
+import ffprobeStatic from 'ffprobe-static'
 
 /** ffprobe binary to invoke. Overridable for tests/CI. */
 function ffprobeBin(): string {
-  return process.env.CAPTION_STUDIO_FFPROBE ?? 'ffprobe'
+  return process.env.CAPTION_STUDIO_FFPROBE ?? ffprobeStatic.path ?? 'ffprobe'
 }
 
 /** Build ffprobe args that print ONLY the container duration in seconds. */

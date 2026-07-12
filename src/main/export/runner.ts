@@ -22,10 +22,11 @@ import { cleanupCaptionFrames } from './captionFrames'
 import { bundleLayout } from '../storage/bundle'
 import { getProvider } from '../storage'
 import { appFontsDir } from './fontsDir'
+import ffmpegPath from 'ffmpeg-static'
 
 /** FFmpeg binary to invoke. Overridable via CAPTION_STUDIO_FFMPEG for tests. */
 function ffmpegBin(): string {
-  return process.env.CAPTION_STUDIO_FFMPEG ?? 'ffmpeg'
+  return process.env.CAPTION_STUDIO_FFMPEG ?? ffmpegPath ?? 'ffmpeg'
 }
 
 /**
