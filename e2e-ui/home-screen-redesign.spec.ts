@@ -16,11 +16,19 @@ let window: Page
 test.beforeAll(async () => {
   const projectsRoot = mkdtempSync(join(tmpdir(), 'caption-studio-e2e-projects-home-'))
 
+  // Case-insensitively filter out all OneDrive environment variables from the sandbox environment
+  const sandboxEnv = { ...process.env }
+  for (const key of Object.keys(sandboxEnv)) {
+    if (key.toLowerCase().includes('onedrive')) {
+      delete sandboxEnv[key]
+    }
+  }
+
   app = await electron.launch({
     args: [repoRoot],
     cwd: repoRoot,
     env: {
-      ...process.env,
+      ...sandboxEnv,
       CAPTION_STUDIO_E2E: '1',
       CAPTION_STUDIO_E2E_PROJECTS_ROOT: projectsRoot
     }
@@ -176,13 +184,13 @@ test('Projects Home Redesign: Sidebar, Workspace controls, Layouts, and Presets'
   // Toggle OneDrive
   await cloudSpaceBtn.click()
   // Under OneDrive it should fail to load and display error state (offline/not-implemented)
-  await expect(window.getByText('Cloud Drafts')).toBeVisible()
+  await expect(window.getByRole('heading', { name: 'Cloud Drafts' })).toBeVisible()
   await expect(window.getByText("Couldn't load drafts")).toBeVisible()
   await beat('13-cloud-space-error')
 
   // Toggle Local Drafts back
   await localDraftsBtn.click()
-  await expect(window.getByText('Local Drafts')).toBeVisible()
+  await expect(window.getByRole('heading', { name: 'Local Drafts' })).toBeVisible()
   await expect(window.locator('button[title="Project Alpha"]')).toBeVisible()
   await expect(window.locator('button[title="Project Beta"]')).toBeVisible()
   await beat('14-local-drafts-restored')

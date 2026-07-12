@@ -34,6 +34,10 @@ const ONEDRIVE_SUBDIR = 'CaptionStudio'
  *   ~/OneDrive (legacy).
  */
 export function detectOneDrivePath(): string | null {
+  if (process.env.CAPTION_STUDIO_E2E === '1') {
+    return null
+  }
+
   // Windows env vars set by the OneDrive client.
   for (const key of ['OneDrive', 'OneDriveCommercial', 'OneDriveConsumer']) {
     const value = process.env[key]
