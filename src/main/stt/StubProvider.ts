@@ -27,10 +27,7 @@ export class StubSttProvider implements SttProvider {
   ): Promise<Transcript> {
     return {
       language: opts?.language ?? DEFAULT_LANGUAGE,
-      words: [
-        { start: 0, end: 1, text: 'மாரியம்மன்' },
-        { start: 1, end: 2, text: 'பாடல்கள்' }
-      ]
+      words: []
     }
   }
 }

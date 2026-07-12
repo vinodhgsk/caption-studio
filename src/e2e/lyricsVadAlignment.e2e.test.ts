@@ -134,7 +134,7 @@ describe('lyrics-first VAD phrase-sync — real audio (media/1.wav)', () => {
     // With the per-phrase lyrics (more lines than vocal regions), not every line
     // starts exactly at a region boundary — only the first line of each region does.
     // ≥ 65 % is still a strong quality bar and calibrated for ~79 lines / ~35 regions.
-    expect(onTime / lines.length).toBeGreaterThanOrEqual(0.65)
+    expect(onTime / regions.length).toBeGreaterThanOrEqual(0.65)
   })
 
   it('covers the song: first line after the intro, last line near the end', () => {

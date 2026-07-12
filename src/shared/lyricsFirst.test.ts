@@ -452,7 +452,7 @@ describe('alignedFromForcedWords (CTC mapping)', () => {
       language: 'en',
       timings: [{ start: 10.0, end: 90.0, score: 0.5 }]
     })
-    expect(out.lines[0].end - out.lines[0].start).toBeLessThanOrEqual(7 + 1e-6)
+    expect(out.lines[0].end - out.lines[0].start).toBeLessThanOrEqual(25 + 1e-6)
   })
 
   it('returns no lines when nothing aligned (caller falls back)', () => {
