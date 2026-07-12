@@ -159,6 +159,45 @@ function ConfidenceHeatmap({ clip, durationSec }: { clip: Clip; durationSec: num
   )
 }
 
+function clipStyle(type: ProjectTrack['type'], selected: boolean): {
+  bg: string
+  border: string
+  text: string
+} {
+  switch (type) {
+    case 'video':
+      return {
+        bg: selected ? 'bg-[#125c57]' : 'bg-[#104e4a]',
+        border: selected ? 'border-[#00d4c8]' : 'border-[#19756f]',
+        text: 'text-[#85e3dd]'
+      }
+    case 'audio':
+      return {
+        bg: selected ? 'bg-[#183e72]' : 'bg-[#15345f]',
+        border: selected ? 'border-[#4c8df5]' : 'border-[#234e8c]',
+        text: 'text-[#8fb9f5]'
+      }
+    case 'text':
+      return {
+        bg: selected ? 'bg-[#914f12]' : 'bg-[#7c430e]',
+        border: selected ? 'border-[#fb923c]' : 'border-[#a85f1c]',
+        text: 'text-[#f7c08a]'
+      }
+    case 'effect':
+      return {
+        bg: selected ? 'bg-[#5a2782]' : 'bg-[#4c1f6f]',
+        border: selected ? 'border-[#c084fc]' : 'border-[#6c329b]',
+        text: 'text-[#d2a3f9]'
+      }
+    default:
+      return {
+        bg: selected ? 'bg-surface-2' : 'bg-surface-1',
+        border: selected ? 'border-accent' : 'border-line',
+        text: 'text-text-primary'
+      }
+  }
+}
+
 export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineClipProps): JSX.Element {
   const selected = useTimelineStore((s) => s.selection.includes(clip.id))
   const setSelection = useTimelineStore((s) => s.setSelection)
@@ -205,8 +244,8 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
       // appearance align to the music; only when snap is on.
       const beats = snap ? collectBeatMarkers(project?.tracks ?? []) : []
       const targets = snap
-        ? gatherSnapTargets(project?.tracks ?? [], playhead, clip.id, beats)
-        : []
+          ? gatherSnapTargets(project?.tracks ?? [], playhead, clip.id, beats)
+          : []
 
       dragRef.current = {
         pointerId: e.pointerId,
@@ -413,6 +452,7 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
   const widthPx = Math.max(MIN_CLIP_PX, timeToPx(effectiveDurationSec, pxPerSec))
   const guidePx = snappedTo !== null ? timeToPx(snappedTo, pxPerSec) : null
   const isAudio = trackType === 'audio'
+  const style = clipStyle(trackType, selected)
 
   return (
     <>
@@ -431,7 +471,7 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
         onPointerMove={handlePointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
-        className={`group absolute top-1 bottom-1 flex cursor-grab touch-none select-none flex-col overflow-hidden rounded-md border bg-surface-2 text-left active:cursor-grabbing ${selected ? 'border-accent ring-1 ring-accent' : 'border-line'
+        className={`group absolute top-1 bottom-1 flex cursor-grab touch-none select-none flex-col overflow-hidden rounded-md border text-left active:cursor-grabbing ${style.bg} ${style.border} ${style.text} ${selected ? 'ring-1 ring-accent z-20' : ''
           } ${previewOffsetY !== null ? 'z-30 opacity-90 shadow-lg' : ''}`}
         style={{
           left: `${leftPx}px`,
@@ -451,7 +491,7 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
         ) : (
           // Repeating thumbnail-frame placeholder strip (deterministic, token-driven).
           <div
-            className="pointer-events-none h-full w-full opacity-40"
+            className="pointer-events-none h-full w-full opacity-35"
             aria-hidden="true"
             style={{
               backgroundImage:
@@ -460,10 +500,27 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
           />
         )}
 
-        {/* Label overlay. */}
-        <span className="pointer-events-none absolute left-1 top-0.5 max-w-full truncate pr-1 text-[10px] font-medium text-text-primary">
-          {clipLabel(clip)}
-        </span>
+        {/* Label overlay with icon prefix */}
+        <div className="pointer-events-none absolute left-1.5 top-1 flex items-center gap-1 max-w-[calc(100%-12px)]">
+          {trackType === 'text' && (
+            <svg className="h-3 w-3 shrink-0 opacity-75" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M3 4h10v2h-4v7H7V6H3V4z" />
+            </svg>
+          )}
+          {trackType === 'effect' && (
+            <svg className="h-3 w-3 shrink-0 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          )}
+          {trackType === 'audio' && (
+            <svg className="h-3 w-3 shrink-0 opacity-75" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5}>
+              <path d="M2 8h2l2-4 3 9 2-6 1 2h2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+          <span className="truncate text-[10px] font-semibold tracking-wide">
+            {clipLabel(clip)}
+          </span>
+        </div>
 
         {/* Hover delete (×): appears on hover (CapCut-style quick delete). Its
             own hit zone; stopPropagation keeps it from starting a body-move. */}
