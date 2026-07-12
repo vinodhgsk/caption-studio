@@ -475,13 +475,24 @@ function KeywordHighlightSection(): JSX.Element {
   )
 }
 
+import { TransliterationTool } from './TransliterationTool'
+
 // ---------------------------------------------------------------------------
-// Transliteration Section (placeholder — P10R.1–P10R.3)
+// Transliteration Section
 // ---------------------------------------------------------------------------
 function TransliterationSection(): JSX.Element {
+  const project = useProjectStore((s) => s.currentProject)
+  const textLayerIds = useMemo(() => {
+    if (project === null) return []
+    return project.tracks
+      .filter((t) => t.type === 'text')
+      .flatMap((t) => t.clips)
+      .map((c) => c.id)
+  }, [project])
+
   return (
     <Section title="Transliteration">
-      <p className="text-xs text-text-muted">Transliteration — coming soon</p>
+      <TransliterationTool textLayerIds={textLayerIds} />
     </Section>
   )
 }

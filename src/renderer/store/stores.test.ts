@@ -36,14 +36,14 @@ describe('app modules import cleanly', () => {
   it('registers all panels in docs/01 order (includes reveal panel from P8R.11)', () => {
     expect(PANELS.map((p) => p.id)).toEqual([
       'media',
-      'text',
+      'audio',
       'captions',
+      'text',
       'effects',
       'decorations',
       'animation',
       'reveal',
       'transitions',
-      'audio',
       'fonts',
       'aiTools',
       'presets',

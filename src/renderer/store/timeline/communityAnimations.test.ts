@@ -16,20 +16,20 @@
 import { describe, expect, it } from 'vitest'
 
 // Side-effect import: registers all 17 community presets into the shared registries.
-import '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/communityAnimations'
+import './communityAnimations'
 
 import {
   getAnimPreset,
   IDENTITY_SAMPLE,
   type AnimSample,
   type AnimPhase,
-} from '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/clipAnimation'
+} from './clipAnimation'
 import {
   getRevealEffect,
   type RevealPhase,
-} from '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/clipRevealEffect'
-import { mulberry32, hashSeed } from '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/communityAnimations'
-import type { GlyphBoxLayout } from '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/routes/editor/preview/textLayout'
+} from './clipRevealEffect'
+import { mulberry32, hashSeed } from './communityAnimations'
+import type { GlyphBoxLayout } from '../../routes/editor/preview/textLayout'
 
 // ---------------------------------------------------------------------------
 // Shared fixtures
@@ -893,16 +893,12 @@ describe('PRNG utilities (mulberry32, hashSeed)', () => {
 
 describe('COMMUNITY_ANIM_CATALOG — catalog completeness', () => {
   it('has exactly 17 entries', async () => {
-    const mod = await import(
-      '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/communityAnimations'
-    )
+    const mod = await import('./communityAnimations')
     expect(mod.COMMUNITY_ANIM_CATALOG).toHaveLength(17)
   })
 
   it('all 17 entries have non-empty id and label', async () => {
-    const mod = await import(
-      '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/communityAnimations'
-    )
+    const mod = await import('./communityAnimations')
     for (const entry of mod.COMMUNITY_ANIM_CATALOG) {
       expect(entry.id.length).toBeGreaterThan(0)
       expect(entry.label.length).toBeGreaterThan(0)
@@ -910,18 +906,14 @@ describe('COMMUNITY_ANIM_CATALOG — catalog completeness', () => {
   })
 
   it('all catalog ids start with "community/"', async () => {
-    const mod = await import(
-      '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/communityAnimations'
-    )
+    const mod = await import('./communityAnimations')
     for (const entry of mod.COMMUNITY_ANIM_CATALOG) {
       expect(entry.id.startsWith('community/')).toBe(true)
     }
   })
 
   it('canonical 17 ids are all present', async () => {
-    const mod = await import(
-      '/Users/vinod.gunasekaran/Public/repos/innovation/caption-studio/src/renderer/store/timeline/communityAnimations'
-    )
+    const mod = await import('./communityAnimations')
     const ids = new Set(mod.COMMUNITY_ANIM_CATALOG.map((e: { id: string }) => e.id))
     const expected = [
       'community/wave-ripple',

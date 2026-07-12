@@ -423,7 +423,22 @@ export async function createE2EHarness(): Promise<E2EHarness> {
       case 'storage:probeMediaDuration': {
         const req = request as IpcRequest<'storage:probeMediaDuration'>
         const bundlePath = provider.resolvePath(req.ref)
-        const durationSec = await probeMediaDuration(bundlePath, req.mediaRef)
+        let durationSec = await probeMediaDuration(bundlePath, req.mediaRef)
+        if (durationSec === null) {
+          try {
+            const layout = bundleLayout(bundlePath)
+            const fileAbs = join(layout.media, basename(req.mediaRef))
+            const buf = await readFile(fileAbs)
+            if (buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WAVE') {
+              const wav = parseWav(buf)
+              if (wav.sampleRate > 0 && wav.channels > 0 && wav.bitsPerSample > 0) {
+                durationSec = wav.dataBytes / (wav.sampleRate * wav.channels * (wav.bitsPerSample / 8))
+              }
+            }
+          } catch {
+            durationSec = null
+          }
+        }
         return { durationSec } as IpcResponse<C>
       }
       case 'storage:duplicateProject': {
