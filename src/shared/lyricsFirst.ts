@@ -585,8 +585,8 @@ export interface ForcedWordTiming {
   score: number
 }
 
-/** Max seconds a single caption line stays on screen (caps held-note over-extension). */
-const FA_MAX_LINE_DUR = 7
+/** Max seconds a single caption line stays on screen (caps held-note over-extension). Increased to 25s for slow chants. */
+const FA_MAX_LINE_DUR = 25
 
 /**
  * The exact flat word sequence the forced-alignment sidecar must be given, in
