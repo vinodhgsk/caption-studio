@@ -41,7 +41,7 @@ interface TimelineProps {
 /** Uniform lane / header row height (px) so headers and lanes line up. */
 const LANE_HEIGHT_PX = 52
 /** Width of the left track-header column (px). */
-const HEADER_WIDTH_PX = 160
+const HEADER_WIDTH_PX = 80
 /**
  * Multi-track timeline (P3.2): a fixed track-header column on the left and a
  * horizontally-scrollable ruler + lanes area on the right. The ruler and every

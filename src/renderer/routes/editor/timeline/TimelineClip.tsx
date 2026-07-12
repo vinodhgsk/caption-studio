@@ -451,7 +451,7 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
   const leftPx = timeToPx(effectiveStart, pxPerSec)
   const widthPx = Math.max(MIN_CLIP_PX, timeToPx(effectiveDurationSec, pxPerSec))
   const guidePx = snappedTo !== null ? timeToPx(snappedTo, pxPerSec) : null
-  const isAudio = trackType === 'audio'
+
   const style = clipStyle(trackType, selected)
 
   return (
@@ -482,26 +482,38 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
         aria-pressed={selected}
         title={clipLabel(clip)}
       >
-        {/* Audio: real decoded waveform (P4.2), sliced to the clip's source
-            window + downsampled to its pixel width. Falls back to a deterministic
-            placeholder shape until the shared per-media decode resolves.
-            Video/image: thumbnail-frame placeholder strip. TODO(P4): real thumbs. */}
-        {isAudio ? (
+        {/* Background content based on track type */}
+        {trackType === 'audio' && (
           <WaveformStrip clip={clip} widthPx={widthPx} bundleAbs={bundleAbs} />
-        ) : (
-          // Repeating thumbnail-frame placeholder strip (deterministic, token-driven).
-          <div
-            className="pointer-events-none h-full w-full opacity-35"
-            aria-hidden="true"
-            style={{
-              backgroundImage:
-                'repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 28px)'
-            }}
-          />
+        )}
+        {trackType === 'video' && (
+          <div className="flex h-full w-full flex-col">
+            {/* Darker header bar for video clips */}
+            <div className="h-[18px] w-full shrink-0 bg-black/25" />
+            {/* Thumbnail area */}
+            <div
+              className="pointer-events-none flex-1 w-full opacity-35"
+              aria-hidden="true"
+              style={{
+                backgroundImage:
+                  'repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 36px)'
+              }}
+            />
+          </div>
+        )}
+        {trackType === 'text' && (
+          <div className="flex h-full w-full flex-col items-center justify-end pb-1 px-1">
+            {/* CapCut-style text preset preview box */}
+            <div className="flex h-5 w-[80%] max-w-[60px] items-center justify-center rounded-sm bg-white px-1 shadow-sm">
+              <span className="truncate text-[9px] font-bold text-black">
+                {clipLabel(clip)}
+              </span>
+            </div>
+          </div>
         )}
 
-        {/* Label overlay with icon prefix */}
-        <div className="pointer-events-none absolute left-1.5 top-1 flex items-center gap-1 max-w-[calc(100%-12px)]">
+        {/* Label overlay with icon prefix (rendered for all clips at top-left) */}
+        <div className="pointer-events-none absolute left-1.5 top-0.5 flex items-center gap-1 max-w-[calc(100%-12px)] h-[14px]">
           {trackType === 'text' && (
             <svg className="h-3 w-3 shrink-0 opacity-75" viewBox="0 0 16 16" fill="currentColor">
               <path d="M3 4h10v2h-4v7H7V6H3V4z" />
@@ -517,7 +529,7 @@ export function TimelineClip({ clip, trackType, pxPerSec, bundleAbs }: TimelineC
               <path d="M2 8h2l2-4 3 9 2-6 1 2h2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           )}
-          <span className="truncate text-[10px] font-semibold tracking-wide">
+          <span className="truncate text-[9px] font-semibold tracking-wide">
             {clipLabel(clip)}
           </span>
         </div>
