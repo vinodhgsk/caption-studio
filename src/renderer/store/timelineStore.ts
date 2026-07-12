@@ -642,13 +642,20 @@ export interface TimelineState {
    * track to zero clips. No-op (returns null) when no project is open. Returns the
    * generated clip ids in order.
    */
-  generateCaptions: (transcript: Transcript, opts?: GroupingOptions) => string[] | null
+  generateCaptions: (
+    transcript: Transcript,
+    opts?: GroupingOptions & { offsetSec?: number }
+  ) => string[] | null
   /**
    * Lower-level variant of {@link generateCaptions} that takes already-grouped
    * {@link CaptionLine}[] (e.g. from a live preview/edit) plus the language code
    * for `clip.text.lang`. Same undoable replace-or-create semantics.
    */
-  generateCaptionsFromLines: (lines: CaptionLine[], lang?: LanguageCode) => string[] | null
+  generateCaptionsFromLines: (
+    lines: CaptionLine[],
+    lang?: LanguageCode,
+    offsetSec?: number
+  ) => string[] | null
   /**
    * RE-SYNC the Caption track (Doc 02 §2.3, `caption-sync` skill): REGROUP from
    * the STORED per-word transcript and REPLACE the caption clips — WITHOUT
@@ -1688,19 +1695,49 @@ export const useTimelineStore = create<TimelineState>((set, get) => ({
   generateCaptions: (transcript, opts) => {
     const project = useProjectStore.getState().currentProject
     if (project === null) return null
+
+    // Shift the transcript words by offsetSec if provided
+    let finalTranscript = transcript
+    if (opts?.offsetSec) {
+      const offset = opts.offsetSec
+      finalTranscript = {
+        ...transcript,
+        words: transcript.words.map((w) => ({
+          ...w,
+          start: w.start + offset,
+          end: w.end + offset
+        }))
+      }
+    }
+
     // Reuse P4.6 grouping (inside buildCaptionClipsFromTranscript) — NOT
     // reimplemented here. ids are minted renderer-side so the builder stays pure.
-    const raw = buildCaptionClipsFromTranscript(transcript, () => crypto.randomUUID(), opts)
+    const raw = buildCaptionClipsFromTranscript(finalTranscript, () => crypto.randomUUID(), opts)
     // Subtitle placement (lower-third) + anti-overlap in one pass before the
     // undoable command so captions land at the bottom and never pile up.
     const clips = prepareCaptionClips(raw, project)
     useProjectStore.getState().runCommand(generateCaptionsCommand(project, clips))
     return clips.map((c) => c.id)
   },
-  generateCaptionsFromLines: (lines, lang) => {
+  generateCaptionsFromLines: (lines, lang, offsetSec) => {
     const project = useProjectStore.getState().currentProject
     if (project === null) return null
-    const raw = buildCaptionClips(lines, () => crypto.randomUUID(), lang)
+
+    let finalLines = lines
+    if (offsetSec) {
+      finalLines = lines.map((l) => ({
+        ...l,
+        start: l.start + offsetSec,
+        out: l.out + offsetSec,
+        words: l.words.map((w) => ({
+          ...w,
+          start: w.start + offsetSec,
+          end: w.end + offsetSec
+        }))
+      }))
+    }
+
+    const raw = buildCaptionClips(finalLines, () => crypto.randomUUID(), lang)
     const clips = prepareCaptionClips(raw, project)
     useProjectStore.getState().runCommand(generateCaptionsCommand(project, clips))
     return clips.map((c) => c.id)

@@ -362,7 +362,8 @@ export function AutoCaptionPanel(): JSX.Element {
 
       setStage('grouping')
       const lines = alignedLyricsToCaptionLines(aligned.alignment.lines)
-      const ids = generateCaptionsFromLines(lines, aligned.alignment.language)
+      const offsetSec = targetClip.start - targetClip.in
+      const ids = generateCaptionsFromLines(lines, aligned.alignment.language, offsetSec)
       if (ids === null) {
         setStage('error')
         setError('No project is open.')
@@ -392,7 +393,8 @@ export function AutoCaptionPanel(): JSX.Element {
       maxLines,
       pauseGapSec
     }
-    const ids = generateCaptions(transcribed.transcript, opts)
+    const offsetSec = targetClip.start - targetClip.in
+    const ids = generateCaptions(transcribed.transcript, { ...opts, offsetSec })
     if (ids === null) {
       setStage('error')
       setError('No project is open.')
