@@ -89,8 +89,15 @@ function runFfmpeg(args: string[]): Promise<void> {
       reject(new Error(`Failed to launch FFmpeg: ${err.message}. Is ffmpeg installed?`))
     )
     child.on('close', (code) => {
-      if (code === 0) resolve()
-      else reject(new Error(`FFmpeg exited with code ${code}: ${stderr.trim().slice(-500)}`))
+      if (code === 0) {
+        resolve()
+      } else {
+        if (stderr.includes('does not contain any stream')) {
+          reject(new Error('The selected media file does not contain an audio stream to transcribe.'))
+        } else {
+          reject(new Error(`FFmpeg exited with code ${code}: ${stderr.trim().slice(-500)}`))
+        }
+      }
     })
   })
 }

@@ -40,6 +40,8 @@ export const WHISPER_PROVIDER_ID = 'whisper'
 
 /** whisper.cpp binary to invoke. Overridable for tests/CI. Default: `whisper-cli`. */
 export function whisperBin(): string {
+  const localPath = join(process.cwd(), 'models', process.platform === 'win32' ? 'whisper-cli.exe' : 'whisper-cli')
+  if (existsSync(localPath)) return localPath
   return process.env.CAPTION_STUDIO_WHISPER_BIN ?? 'whisper-cli'
 }
 

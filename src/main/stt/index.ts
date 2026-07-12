@@ -99,11 +99,19 @@ export function registerSttIpc(): void {
       : 'lyrics-first-stub'
 
     const wordSeq = lyricWordSequence(request.lyrics)
+    // Pass VAD regions as segments to the CTC sidecar so it can align word
+    // subsets to each voiced chunk independently. This prevents CTC drift on
+    // long audio (>3 min) where monolithic alignment compresses tail words.
+    const segments: [number, number][] | undefined =
+      vocalRegions.length >= 2
+        ? vocalRegions.map((r) => [r.start, r.end] as [number, number])
+        : undefined
     const forced = await runForcedAlign({
       wavAbsPath,
       words: wordSeq,
       language: request.language,
-      appRoot: process.cwd()
+      appRoot: process.cwd(),
+      segments
     })
     if (forced !== null && forced.words.some((w) => w != null)) {
       const ctc = alignedFromForcedWords({

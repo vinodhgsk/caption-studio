@@ -37,7 +37,7 @@ const DEFAULT_TIMEOUT_MS = 8 * 60 * 1000
 export function resolveSidecar(appRoot: string): { python: string; script: string } | null {
   const python =
     process.env.CAPTION_STUDIO_ALIGN_PY ??
-    join(appRoot, 'resources', 'pyalign', '.venv', 'bin', 'python')
+    join(appRoot, 'resources', 'pyalign', '.venv', process.platform === 'win32' ? 'Scripts' : 'bin', process.platform === 'win32' ? 'python.exe' : 'python')
   const script =
     process.env.CAPTION_STUDIO_ALIGN_SCRIPT ?? join(appRoot, 'resources', 'pyalign', 'forced_align.py')
   if (!existsSync(python) || !existsSync(script)) return null
@@ -55,6 +55,13 @@ export async function runForcedAlign(args: {
   language?: string
   appRoot: string
   timeoutMs?: number
+  /**
+   * VAD vocal regions as `[start_sec, end_sec]` pairs. When provided with ≥2
+   * segments, the sidecar distributes words across segments proportionally by
+   * duration and aligns each chunk independently. This prevents CTC drift on
+   * long audio (>3 min) where monolithic alignment compresses tail words.
+   */
+  segments?: readonly (readonly [number, number])[]
 }): Promise<ForcedAlignResult | null> {
   if (args.words.length === 0) return null
   const sidecar = resolveSidecar(args.appRoot)
@@ -63,7 +70,8 @@ export async function runForcedAlign(args: {
   const request = JSON.stringify({
     wav_path: args.wavAbsPath,
     language: args.language ?? null,
-    words: args.words
+    words: args.words,
+    segments: args.segments ?? null
   })
 
   return new Promise<ForcedAlignResult | null>((resolve) => {

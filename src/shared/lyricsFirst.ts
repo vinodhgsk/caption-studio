@@ -669,6 +669,56 @@ export function alignedFromForcedWords(args: {
     end[i] = Math.max(start[i] + 0.02, Math.min(end[i], nextStart))
   }
 
+  // Detect compressed runs: stretches of consecutive words whose total span is
+  // less than MIN_WORD_DUR × count. These arise when CTC drift crams many words
+  // into a short window — redistribute them evenly across the available span.
+  const MIN_WORD_DUR = 0.10 // 100ms — minimum plausible spoken-word duration
+  const COMPRESS_THRESHOLD = 3 // at least 3 words before we consider redistribution
+  {
+    let runStart = 0
+    while (runStart < n) {
+      // Find a contiguous run of words that are too compressed.
+      let runEnd = runStart + 1
+      while (runEnd < n) {
+        const span = end[runEnd - 1] - start[runStart]
+        const count = runEnd - runStart
+        if (span >= MIN_WORD_DUR * count) break
+        runEnd++
+      }
+      const count = runEnd - runStart
+      if (count >= COMPRESS_THRESHOLD) {
+        // This run is compressed. Determine the available span:
+        // from start[runStart] to the next boundary (next known word's start or
+        // the current end of the last word in the run, whichever is later).
+        const spanStart = start[runStart]
+        // Look for the next word AFTER the run that has reasonable timing.
+        let spanEnd: number
+        if (runEnd < n) {
+          spanEnd = start[runEnd]
+        } else {
+          // Last words in the song: extend to at least MIN_WORD_DUR per word past
+          // the current compressed end, but never past the last known end + slack.
+          const lastEnd = end[runEnd - 1]
+          spanEnd = Math.max(lastEnd, spanStart + MIN_WORD_DUR * count)
+        }
+        const totalSpan = Math.max(0, spanEnd - spanStart)
+        const wordDur = totalSpan / count
+        // Redistribute evenly.
+        for (let i = runStart; i < runEnd; i++) {
+          start[i] = spanStart + (i - runStart) * wordDur
+          end[i] = start[i] + Math.max(0.02, wordDur - 0.005) // tiny gap between words
+        }
+      }
+      runStart = runEnd
+    }
+    // Re-enforce monotonic ordering after redistribution.
+    for (let i = 1; i < n; i++) if (start[i] < start[i - 1]) start[i] = start[i - 1]
+    for (let i = 0; i < n; i++) {
+      const nextStart = i + 1 < n ? start[i + 1] : Infinity
+      end[i] = Math.max(start[i] + 0.02, Math.min(end[i], nextStart))
+    }
+  }
+
   // Group into lines and cap line durations.
   const alignedLines: AlignedLyricsLine[] = []
   let w = 0
