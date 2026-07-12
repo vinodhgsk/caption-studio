@@ -38,9 +38,9 @@ interface TimelineProps {
 }
 
 /** Uniform lane / header row height (px) so headers and lanes line up. */
-const LANE_HEIGHT_PX = 44
+const LANE_HEIGHT_PX = 90
 /** Width of the left track-header column (px). */
-const HEADER_WIDTH_PX = 132
+const HEADER_WIDTH_PX = 160
 /**
  * Multi-track timeline (P3.2): a fixed track-header column on the left and a
  * horizontally-scrollable ruler + lanes area on the right. The ruler and every
@@ -210,25 +210,26 @@ export function Timeline({ project }: TimelineProps): JSX.Element {
 
   return (
     <footer
-      className="flex h-56 shrink-0 flex-col border-t border-line bg-surface-1 outline-none"
+      className="flex h-60 shrink-0 flex-col border-t border-line bg-surface-1 outline-none"
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
-      {/* Toolbar row: edit ops + zoom + snap. */}
-      <div className="flex h-9 shrink-0 items-center justify-between border-b border-line px-3">
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-semibold text-text-secondary">Timeline</span>
+      {/* CapCut-style toolbar row: full-width icon controls */}
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-line bg-surface-2/30 px-3 gap-2">
+        {/* Left + centre: editing icon toolbar */}
+        <div className="flex flex-1 items-center">
           <EditControls />
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[11px] text-text-muted" title="Timeline default view mode">
+        {/* Right: view mode label + Fit + Zoom */}
+        <div className="flex items-center gap-2">
+          <span className="hidden text-[10px] text-text-muted xl:block" title="Timeline default view mode">
             View: {viewModeLabel}
           </span>
           <button
             type="button"
             aria-label="Zoom to fit"
             onClick={zoomToFit}
-            className="rounded-sm bg-surface-2 px-2 py-1 text-xs font-medium text-text-secondary hover:text-text-primary"
+            className="rounded-md border border-line bg-surface-2 px-2 py-1 text-[11px] font-medium text-text-secondary transition-colors hover:bg-surface-0 hover:text-text-primary"
           >
             Fit
           </button>
