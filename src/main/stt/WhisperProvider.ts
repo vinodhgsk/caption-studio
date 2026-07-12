@@ -196,7 +196,11 @@ function runWhisper(args: string[]): Promise<void> {
     )
     child.on('close', (code) => {
       if (code === 0) resolve()
-      else reject(new Error(`whisper.cpp exited with code ${code}: ${stderr.trim().slice(-500)}`))
+      else {
+        const errStr = stderr.trim()
+        const msg = errStr.length > 1000 ? `${errStr.slice(0, 500)}\n...\n${errStr.slice(-500)}` : errStr
+        reject(new Error(`whisper.cpp exited with code ${code}:\n${msg}`))
+      }
     })
   })
 }

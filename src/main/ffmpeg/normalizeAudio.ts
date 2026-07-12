@@ -95,7 +95,9 @@ function runFfmpeg(args: string[]): Promise<void> {
         if (stderr.includes('does not contain any stream')) {
           reject(new Error('The selected media file does not contain an audio stream to transcribe.'))
         } else {
-          reject(new Error(`FFmpeg exited with code ${code}: ${stderr.trim().slice(-500)}`))
+          const errStr = stderr.trim()
+          const msg = errStr.length > 1000 ? `${errStr.slice(0, 500)}\n...\n${errStr.slice(-500)}` : errStr
+          reject(new Error(`FFmpeg exited with code ${code}:\n${msg}`))
         }
       }
     })
