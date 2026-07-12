@@ -35,6 +35,7 @@ function isFromTextInput(target: EventTarget | null): boolean {
 
 interface TimelineProps {
   project: Project
+  height?: number
 }
 
 /** Uniform lane / header row height (px) so headers and lanes line up. */
@@ -52,7 +53,7 @@ const HEADER_WIDTH_PX = 160
  * (P3.8) is mounted here via `usePlayheadClock`, and the ruler is draggable to
  * scrub (frame-snapped seek).
  */
-export function Timeline({ project }: TimelineProps): JSX.Element {
+export function Timeline({ project, height }: TimelineProps): JSX.Element {
   const zoom = useTimelineStore((s) => s.zoom)
   const playhead = useTimelineStore((s) => s.playhead)
   const selection = useTimelineStore((s) => s.selection)
@@ -210,7 +211,8 @@ export function Timeline({ project }: TimelineProps): JSX.Element {
 
   return (
     <footer
-      className="flex h-60 shrink-0 flex-col border-t border-line bg-surface-1 outline-none"
+      className="flex shrink-0 flex-col border-t border-line bg-surface-1 outline-none"
+      style={{ height: height !== undefined ? `${height}px` : '320px' }}
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >

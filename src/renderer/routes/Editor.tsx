@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { ProjectMeta, ProjectRef } from '../../shared/storage'
 import { useProjectStore } from '@/store/projectStore'
@@ -52,6 +52,31 @@ export default function Editor(): JSX.Element {
 
   const params = parseEditorParams(searchParams)
   const projectIsOpen = openStatus === 'ready' && currentProject !== null
+
+  const [timelineHeight, setTimelineHeight] = useState(320)
+  const [isDragging, setIsDragging] = useState(false)
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setIsDragging(true)
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging) return
+    const container = e.currentTarget.parentElement
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    const newHeight = rect.bottom - e.clientY
+    const minHeight = 120
+    const maxHeight = rect.height * 0.7
+    setTimelineHeight(Math.max(minHeight, Math.min(newHeight, maxHeight)))
+  }
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDragging(false)
+    e.currentTarget.releasePointerCapture(e.pointerId)
+  }
 
   // Keep audio-track clips audible in preview transport playback.
   usePreviewAudio(currentProject)
@@ -162,12 +187,21 @@ export default function Editor(): JSX.Element {
         onUndo={() => undo()}
         onRedo={() => redo()}
       />
-      {/* Region row: P2.7 slots a left rail + right panel around the center column. */}
       <div className="flex flex-1 overflow-hidden">
         <LeftRail />
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-1 flex-col overflow-hidden relative">
           <PreviewRegion aspect={previewAspect} />
-          <TimelineRegion />
+          {/* Vertical drag handle */}
+          <div
+            role="separator"
+            aria-label="Resize timeline"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            className="h-1 w-full cursor-row-resize bg-line hover:bg-accent/70 active:bg-accent transition-colors shrink-0 z-20"
+          />
+          <TimelineRegion height={timelineHeight} />
         </div>
         <PanelContainer />
       </div>
