@@ -57,7 +57,7 @@ export default function ProjectGrid({
 }: ProjectGridProps): JSX.Element {
   if (viewMode === 'list') {
     return (
-      <div className="w-full overflow-x-auto rounded-xl border border-line bg-surface-1">
+      <div className="w-full overflow-x-auto rounded-xl border border-line bg-surface-1 min-h-[220px]">
         <table className="w-full border-collapse text-left text-xs">
           <thead>
             <tr className="border-b border-line bg-surface-2/60 text-text-secondary font-semibold">

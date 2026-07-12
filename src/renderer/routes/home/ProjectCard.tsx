@@ -74,10 +74,10 @@ export default function ProjectCard({
 
   return (
     <div
-      className={`group relative flex w-full flex-col overflow-hidden rounded-xl border border-line bg-surface-1 ring-2 ring-transparent transition-all duration-300 hover:border-accent/40 ${ringColor} hover:shadow-2xl hover:shadow-black/40 hover:-translate-y-0.5 focus-within:border-accent/40`}
+      className={`group relative flex w-full flex-col rounded-xl border border-line bg-surface-1 ring-2 ring-transparent transition-all duration-300 hover:border-accent/40 ${ringColor} hover:shadow-2xl hover:shadow-black/40 hover:-translate-y-0.5 focus-within:border-accent/40`}
     >
-      {/* Context menu — appears on hover */}
-      <div className="absolute right-2 top-2 z-20 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
+      {/* Context menu — visible on touch/mobile, and on hover/focus-within for keyboard accessibility */}
+      <div className="absolute right-2 top-2 z-20 opacity-100 md:opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
         <ProjectCardMenu label={`Actions for ${project.name}`} items={menuItems} />
       </div>
 
@@ -88,7 +88,7 @@ export default function ProjectCard({
         className="flex w-full flex-col text-left focus-visible:outline-none"
       >
         {/* ── Thumbnail canvas ── */}
-        <div className={`relative flex w-full items-center justify-center overflow-hidden bg-surface-2 ${aspectRatio}`}>
+        <div className={`relative flex w-full items-center justify-center overflow-hidden bg-surface-2 ${aspectRatio} rounded-t-xl`}>
           {/* Animated gradient layer */}
           <div className={`absolute inset-0 bg-gradient-to-b ${gradient} transition-opacity duration-500 opacity-80 group-hover:opacity-100`} />
 
