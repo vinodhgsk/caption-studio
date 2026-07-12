@@ -11,6 +11,7 @@ export interface ProjectGridProps {
   onRenameProject?: (project: ProjectMeta) => void
   onDeleteProject?: (project: ProjectMeta) => void
   onRevealProject?: (project: ProjectMeta) => void
+  onArchiveProject?: (project: ProjectMeta, archived: boolean) => void
 }
 
 /** Tiny aspect-shape thumbnail for list view */
@@ -51,7 +52,8 @@ export default function ProjectGrid({
   onDuplicateProject,
   onRenameProject,
   onDeleteProject,
-  onRevealProject
+  onRevealProject,
+  onArchiveProject
 }: ProjectGridProps): JSX.Element {
   if (viewMode === 'list') {
     return (
@@ -76,6 +78,9 @@ export default function ProjectGrid({
                 { key: 'open', label: 'Open', onSelect: () => onOpenProject?.(project) },
                 { key: 'duplicate', label: 'Duplicate', onSelect: () => onDuplicateProject?.(project) },
                 { key: 'rename', label: 'Rename', onSelect: () => onRenameProject?.(project) },
+                project.archived
+                  ? { key: 'unarchive', label: 'Unarchive', onSelect: () => onArchiveProject?.(project, false) }
+                  : { key: 'archive', label: 'Archive', onSelect: () => onArchiveProject?.(project, true) },
                 { key: 'reveal', label: 'Reveal in folder', onSelect: () => onRevealProject?.(project) },
                 { key: 'delete', label: 'Delete', danger: true, onSelect: () => onDeleteProject?.(project) }
               ]
@@ -140,6 +145,7 @@ export default function ProjectGrid({
             onRename={onRenameProject}
             onDelete={onDeleteProject}
             onReveal={onRevealProject}
+            onArchive={onArchiveProject}
           />
         </li>
       ))}

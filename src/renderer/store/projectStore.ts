@@ -119,6 +119,8 @@ export interface ProjectState {
   deleteProject: (ref: ProjectRef) => Promise<ProjectActionResult>
   /** Reveal a bundle in the OS file manager. */
   revealProject: (ref: ProjectRef) => Promise<ProjectActionResult>
+  /** Archive or unarchive a project bundle, then refresh the listing. */
+  archiveProject: (ref: ProjectRef, archived: boolean) => Promise<ProjectActionResult>
 }
 
 export const useProjectStore = create<ProjectState>((set, get) => ({
@@ -382,6 +384,21 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
       return { ok: true }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to reveal project.'
+      set({ listError: message })
+      return { ok: false, error: message }
+    }
+  },
+  archiveProject: async (ref, archived) => {
+    try {
+      const result = await window.api.invoke('storage:archiveProject', { ref, archived })
+      if (!result.ok) {
+        set({ listError: result.error })
+        return { ok: false, error: result.error }
+      }
+      await get().loadProjects(ref.location)
+      return { ok: true }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : `Failed to ${archived ? 'archive' : 'unarchive'} project.`
       set({ listError: message })
       return { ok: false, error: message }
     }

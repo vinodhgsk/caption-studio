@@ -86,6 +86,11 @@ export type IpcContract =
     response: { revealed: boolean }
   }
   | {
+    channel: 'storage:archiveProject'
+    request: { ref: ProjectRef; archived: boolean }
+    response: { archived: boolean }
+  }
+  | {
     /**
      * Open the OS file picker (video + image filter) and return the chosen
      * absolute paths. Empty array on cancel. Paths are plain strings, not

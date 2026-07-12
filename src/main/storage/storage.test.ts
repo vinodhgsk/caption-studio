@@ -230,6 +230,38 @@ describe('duplicate / rename / delete (P2.4)', () => {
     const metas = await provider.listProjects()
     expect(metas.some((m) => m.id === ref.id)).toBe(false)
   })
+
+  it('archiveProject toggles archived status and listProjects reflects it', async () => {
+    const provider = new LocalProvider(root)
+    const ref = await provider.createProject('ToArchive')
+
+    // Initial state: not archived
+    const initial = await provider.readProject(ref)
+    expect(initial.archived).toBeUndefined()
+
+    let metas = await provider.listProjects()
+    let meta = metas.find((m) => m.id === ref.id)
+    expect(meta).toBeDefined()
+    expect(meta?.archived).toBeUndefined()
+
+    // Archive the project
+    await provider.archiveProject(ref, true)
+    const archived = await provider.readProject(ref)
+    expect(archived.archived).toBe(true)
+
+    metas = await provider.listProjects()
+    meta = metas.find((m) => m.id === ref.id)
+    expect(meta?.archived).toBe(true)
+
+    // Unarchive the project
+    await provider.archiveProject(ref, false)
+    const unarchived = await provider.readProject(ref)
+    expect(unarchived.archived).toBe(false)
+
+    metas = await provider.listProjects()
+    meta = metas.find((m) => m.id === ref.id)
+    expect(meta?.archived).toBe(false)
+  })
 })
 
 describe('copyMedia / import (P3.3)', () => {
@@ -309,6 +341,7 @@ describe('GraphOneDriveProvider stub (P1.8–P1.10)', () => {
     await expect(g.duplicateProject(ref)).rejects.toThrow(/not implemented/)
     await expect(g.renameProject(ref, 'y')).rejects.toThrow(/not implemented/)
     await expect(g.deleteProject(ref)).rejects.toThrow(/not implemented/)
+    await expect(g.archiveProject(ref, true)).rejects.toThrow(/not implemented/)
     await expect(g.copyMedia(ref, '/src/a.mp4')).rejects.toThrow(/not implemented/)
   })
 })

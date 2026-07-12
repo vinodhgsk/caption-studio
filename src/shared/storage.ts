@@ -41,6 +41,7 @@ export interface ProjectMeta {
   updatedAt: string
   aspect?: string
   durationSec?: number
+  archived?: boolean
 }
 
 /** Project-level settings (mirrors project.json `settings`; master plan §4). */
@@ -71,6 +72,7 @@ export interface Project {
   name: string
   createdAt: string
   updatedAt: string
+  archived?: boolean
   settings: ProjectSettings
   storage: { location: StorageLocation; root: string }
   tracks: ProjectTrack[]
@@ -165,4 +167,6 @@ export interface StorageProvider {
   renameProject(ref: ProjectRef, name: string): Promise<ProjectRef>
   /** Recursively remove the bundle directory. */
   deleteProject(ref: ProjectRef): Promise<void>
+  /** Toggle the archived state of a project in its bundle. */
+  archiveProject(ref: ProjectRef, archived: boolean): Promise<void>
 }

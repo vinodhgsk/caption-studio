@@ -97,6 +97,11 @@ export function registerStorageIpc(): void {
     getProvider(request.ref.location).readProject(request.ref)
   )
 
+  handle('storage:archiveProject', async (request) => {
+    await getProvider(request.ref.location).archiveProject(request.ref, request.archived)
+    return { archived: request.archived }
+  })
+
   handle('storage:writeProject', (request) =>
     getProvider(request.ref.location).writeProject(
       request.ref,

@@ -9,6 +9,7 @@ export interface ProjectCardProps {
   onRename?: (project: ProjectMeta) => void
   onDelete?: (project: ProjectMeta) => void
   onReveal?: (project: ProjectMeta) => void
+  onArchive?: (project: ProjectMeta, archived: boolean) => void
 }
 
 /** Aspect-specific gradient & accent colors — no hardcoded hex values, only Tailwind tokens */
@@ -52,7 +53,8 @@ export default function ProjectCard({
   onDuplicate,
   onRename,
   onDelete,
-  onReveal
+  onReveal,
+  onArchive
 }: ProjectCardProps): JSX.Element {
   const lastModified = formatLastModified(project.updatedAt)
   const duration = formatDuration(project.durationSec)
@@ -63,6 +65,9 @@ export default function ProjectCard({
     { key: 'open', label: 'Open', onSelect: () => onOpen?.(project) },
     { key: 'duplicate', label: 'Duplicate', onSelect: () => onDuplicate?.(project) },
     { key: 'rename', label: 'Rename', onSelect: () => onRename?.(project) },
+    project.archived
+      ? { key: 'unarchive', label: 'Unarchive', onSelect: () => onArchive?.(project, false) }
+      : { key: 'archive', label: 'Archive', onSelect: () => onArchive?.(project, true) },
     { key: 'reveal', label: 'Reveal in folder', onSelect: () => onReveal?.(project) },
     { key: 'delete', label: 'Delete', danger: true, onSelect: () => onDelete?.(project) }
   ]

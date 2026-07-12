@@ -29,7 +29,8 @@ function markOnboardingDone(): void {
 
 const FILTER_TABS = [
   { id: 'recent', label: 'Recent' },
-  { id: 'all', label: 'All' }
+  { id: 'all', label: 'All' },
+  { id: 'archived', label: 'Archived' }
 ] as const
 type FilterTab = (typeof FILTER_TABS)[number]['id']
 
@@ -46,6 +47,7 @@ export default function Home(): JSX.Element {
   const loadProjects = useProjectStore((s) => s.loadProjects)
   const duplicateProject = useProjectStore((s) => s.duplicateProject)
   const revealProject = useProjectStore((s) => s.revealProject)
+  const archiveProject = useProjectStore((s) => s.archiveProject)
   const navigate = useNavigate()
 
   const [location, setLocation] = useState<StorageLocation>('local')
@@ -95,6 +97,10 @@ export default function Home(): JSX.Element {
     void revealProject(toRef(project))
   }
 
+  const handleArchive = (project: ProjectMeta, archived: boolean): void => {
+    void archiveProject(toRef(project), archived)
+  }
+
   const handleLocationChange = (newLoc: StorageLocation): void => {
     setLocation(newLoc)
     setOneDriveOffline(false)
@@ -103,6 +109,13 @@ export default function Home(): JSX.Element {
   /** Filter, search, and sort */
   const processedProjects = useMemo(() => {
     let list = projects
+
+    // Archive filter
+    if (activeTab === 'archived') {
+      list = list.filter((p) => p.archived === true)
+    } else {
+      list = list.filter((p) => p.archived !== true)
+    }
 
     // Search filter
     if (searchQuery.trim().length > 0) {
@@ -280,6 +293,7 @@ export default function Home(): JSX.Element {
                   onRenameProject={setRenameTarget}
                   onDeleteProject={setDeleteTarget}
                   onRevealProject={handleReveal}
+                  onArchiveProject={handleArchive}
                 />
               )}
             </section>

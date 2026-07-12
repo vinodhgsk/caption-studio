@@ -147,6 +147,10 @@ export class GraphOneDriveProvider implements StorageProvider {
   async deleteProject(_ref: ProjectRef): Promise<void> {
     return notImplemented('OneDrive Graph mode')
   }
+
+  async archiveProject(_ref: ProjectRef, _archived: boolean): Promise<void> {
+    return notImplemented('OneDrive Graph mode')
+  }
 }
 
 export { notImplemented }

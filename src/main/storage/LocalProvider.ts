@@ -203,6 +203,18 @@ export class LocalProvider implements StorageProvider {
     await rm(ref.path, { recursive: true, force: true })
   }
 
+  async archiveProject(ref: ProjectRef, archived: boolean): Promise<void> {
+    const project = await this.readBundle(ref.path)
+    const next: Project = {
+      ...project,
+      archived,
+      updatedAt: new Date().toISOString(),
+      storage: { location: this.location, root: this.root }
+    }
+    const layout = bundleLayout(ref.path)
+    await writeJsonAtomic(layout.projectJson, next)
+  }
+
   /**
    * Find a free `<name>.vproj` directory name in the root, appending " 2",
    * " 3", … on collision. `ignorePath` lets a rename keep its own directory.
@@ -236,7 +248,8 @@ export class LocalProvider implements StorageProvider {
       path: bundlePath,
       createdAt: project.createdAt,
       updatedAt: project.updatedAt,
-      aspect: project.settings?.aspect
+      aspect: project.settings?.aspect,
+      archived: project.archived
     }
   }
 }
