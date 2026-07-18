@@ -171,7 +171,7 @@ export function shadowBehindPass(
 ): void {
   if (token.text.length === 0) return
   if (shadow.kind === 'long') {
-    longShadowBehind(ctx, shadow, token)
+    longShadowBehind(ctx, shadow, stroke, token)
   } else if (shadow.kind === 'inner') {
     /* inner shadow paints AFTER the fill — see innerShadowOverPass (pass 4) */
   } else {
@@ -190,17 +190,35 @@ function dropShadowBehind(
   token: GlyphToken
 ): void {
   ctx.save()
-  applyDropShadow(ctx, shadow)
+  
+  // The canvas may be scaled (e.g. for active-word highlight).
+  // shadowOffsetX is NOT affected by the transformation matrix, but ctx.fillText IS.
+  // If we offset text by -9999, it gets multiplied by scale. We must divide the canvas
+  // offset by the scale so that after the canvas multiplies it, it exactly equals 9999 on screen.
+  const t = ctx.getTransform()
+  const scaleX = t.a || 1
+  const scaleY = t.d || 1
+  const OFFSET_SCREEN = 9999
+  const OFFSET_CANVAS = OFFSET_SCREEN / scaleX
+  
+  ctx.shadowColor = shadow.color
+  // Note: Since shadow properties are NOT affected by transforms, their specified values
+  // are rendered as absolute screen pixels. A scale of 1.5 means the shadow blur/offset
+  // should ideally look 1.5x bigger to match the text.
+  ctx.shadowBlur = shadow.blur * scaleX
+  ctx.shadowOffsetX = (shadow.offset.x * scaleX) + OFFSET_SCREEN
+  ctx.shadowOffsetY = shadow.offset.y * scaleY
+  
   if (stroke !== null && stroke.layers.length > 0) {
     const widest = stroke.layers[0] // resolver sorts WIDEST-first
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0)'
+    ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
     ctx.lineWidth = widest.width
     ctx.lineJoin = 'round'
     ctx.miterLimit = 2
-    ctx.strokeText(token.text, token.x, token.y)
+    ctx.strokeText(token.text, token.x - OFFSET_CANVAS, token.y)
   } else {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0)'
-    ctx.fillText(token.text, token.x, token.y)
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)'
+    ctx.fillText(token.text, token.x - OFFSET_CANVAS, token.y)
   }
   ctx.restore()
   clearShadow(ctx)
@@ -209,11 +227,12 @@ function dropShadowBehind(
 /**
  * LONG (extruded) shadow (P6.14): a flat trail of SOLID copies of the glyph nudged
  * along the angle. {@link longShadowSteps} owns the geometry (farthest-first); we
- * just `fillText` a solid copy at each offset, back-to-front, in the shadow color.
+ * just `fillText` (and optionally `strokeText`) a solid copy at each offset.
  */
 function longShadowBehind(
   ctx: CanvasRenderingContext2D,
   shadow: ResolvedTextShadow,
+  stroke: ResolvedTextStroke | null,
   token: GlyphToken
 ): void {
   const steps = longShadowSteps(
@@ -224,8 +243,24 @@ function longShadowBehind(
   if (steps.length === 0) return
   ctx.save()
   clearShadow(ctx) // crisp solids — make sure no stale blur leaks in
+
+  const hasStroke = stroke !== null && stroke.layers.length > 0
+  if (hasStroke) {
+    const widest = stroke.layers[0]
+    ctx.strokeStyle = shadow.color
+    ctx.lineWidth = widest.width
+    ctx.lineJoin = 'round'
+    ctx.miterLimit = 2
+  }
   ctx.fillStyle = shadow.color
-  for (const s of steps) ctx.fillText(token.text, token.x + s.x, token.y + s.y)
+
+  for (const s of steps) {
+    const sx = Math.round(token.x + s.x)
+    const sy = Math.round(token.y + s.y)
+    if (hasStroke) ctx.strokeText(token.text, sx, sy)
+    ctx.fillText(token.text, sx, sy)
+  }
+
   ctx.restore()
   clearShadow(ctx)
 }
@@ -275,14 +310,18 @@ export function innerShadowOverPass(
   if (token.text.length === 0 || shadow.kind !== 'inner') return
   const prevComposite = ctx.globalCompositeOperation
   ctx.save()
+  
+  
   ctx.fillStyle = shadow.color
   ctx.fillText(token.text, token.x, token.y)
   ctx.globalCompositeOperation = 'source-atop'
+  
   applyDropShadow(ctx, shadow)
-  ctx.shadowOffsetX = shadow.offset.x
-  ctx.shadowOffsetY = shadow.offset.y
   ctx.fillStyle = shadow.color
-  ctx.fillText(token.text, token.x + shadow.offset.x, token.y + shadow.offset.y)
+  // We offset the drawn text so the shadow falls inside the bounds. 
+  // Since fillText is affected by scale, and shadow.offset.x is in canvas space,
+  // we just subtract it. On screen it becomes -offset*scale, then shadowOffsetX adds +offset*scale, perfectly aligning it.
+  ctx.fillText(token.text, token.x - shadow.offset.x, token.y - shadow.offset.y)
   ctx.restore()
   ctx.globalCompositeOperation = prevComposite
   clearShadow(ctx)

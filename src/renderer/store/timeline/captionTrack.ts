@@ -352,14 +352,48 @@ export function setCaptionPositionOnClips(
 
 /**
  * Stamp a new font size onto ONE caption clip's text surface.
- * Preserves lines/lang/caption.words/fill/stroke/shadow/animation untouched.
+ * Proportionally scales the stroke width, shadow distance/blur, and glow radius
+ * so that the 3D embossment and outlines maintain their relative visual proportions.
  */
 export function setCaptionFontSizeOnClip(clip: Clip, size: number): Clip {
   if (clip.text === undefined) return clip
   const font = clip.text.font ?? {}
+  const oldSize = (typeof font.size === 'number' && font.size > 0) ? font.size : 120
+  if (oldSize === size) return clip
+
+  const ratio = size / oldSize
+  const text = clip.text
+
+  const stroke = Array.isArray(text.stroke)
+    ? text.stroke.map((s: any) => ({ ...s, width: typeof s.width === 'number' ? s.width * ratio : s.width }))
+    : text.stroke
+
+  const shadow = (typeof text.shadow === 'object' && text.shadow !== null)
+    ? {
+        ...text.shadow,
+        ...(typeof (text.shadow as any).distance === 'number' ? { distance: (text.shadow as any).distance * ratio } : {}),
+        ...(typeof (text.shadow as any).blur === 'number' ? { blur: (text.shadow as any).blur * ratio } : {})
+      }
+    : text.shadow
+
+  const effects = Array.isArray(text.effects)
+    ? text.effects.map((e: any) => {
+        if (e.params && typeof e.params.radius === 'number') {
+          return { ...e, params: { ...e.params, radius: e.params.radius * ratio } }
+        }
+        return e
+      })
+    : text.effects
+
   return {
     ...clip,
-    text: { ...clip.text, font: { ...font, size } }
+    text: {
+      ...text,
+      font: { ...font, size },
+      stroke: stroke as any,
+      shadow: shadow as any,
+      effects: effects as any
+    }
   }
 }
 
@@ -505,7 +539,7 @@ export function setCaptionGlowOnClips(
             if (c.text === undefined) return c
             const existing = (c.text.effects ?? []) as { type: string; params?: unknown }[]
             const nonGlow = existing.filter((e) => e.type !== 'glow')
-            const effects = glow === null ? nonGlow : [...nonGlow, { type: 'glow', params: glow }]
+            const effects = glow === null ? nonGlow : [...nonGlow, { type: 'glow', enabled: true, intensity: 1, opacity: 1, params: glow }]
             return { ...c, text: { ...c.text, effects: effects as ClipText['effects'] } }
           })
         }
@@ -558,3 +592,147 @@ export function wrapCaptionClipsByWords(project: Project, maxWordsPerLine: numbe
   )
   return { ...project, tracks }
 }
+
+// ---------------------------------------------------------------------------
+// Bold / Italic / Align / Curve — font-level caption-track-wide stampers
+// ---------------------------------------------------------------------------
+
+/** Stamp bold + weight onto ONE caption clip's text font surface. */
+export function setCaptionBoldOnClip(clip: Clip, bold: boolean): Clip {
+  if (clip.text === undefined) return clip
+  const font = clip.text.font ?? {}
+  return { ...clip, text: { ...clip.text, font: { ...font, bold, weight: bold ? 'bold' : 'normal' } } }
+}
+
+/** Stamp bold/weight onto EVERY clip of the Caption track. No-op without a Caption track. */
+export function setCaptionBoldOnClips(project: Project, bold: boolean): Project {
+  const trackIndex = project.tracks.findIndex((t) => t.id === CAPTION_TRACK_ID)
+  if (trackIndex === -1) return project
+  const tracks = project.tracks.map((track, i) =>
+    i === trackIndex
+      ? { ...track, clips: track.clips.map((c) => setCaptionBoldOnClip(c, bold)) }
+      : track
+  )
+  return { ...project, tracks }
+}
+
+/** Stamp italic onto ONE caption clip's text font surface. */
+export function setCaptionItalicOnClip(clip: Clip, italic: boolean): Clip {
+  if (clip.text === undefined) return clip
+  const font = clip.text.font ?? {}
+  return { ...clip, text: { ...clip.text, font: { ...font, italic } } }
+}
+
+/** Stamp italic onto EVERY clip of the Caption track. No-op without a Caption track. */
+export function setCaptionItalicOnClips(project: Project, italic: boolean): Project {
+  const trackIndex = project.tracks.findIndex((t) => t.id === CAPTION_TRACK_ID)
+  if (trackIndex === -1) return project
+  const tracks = project.tracks.map((track, i) =>
+    i === trackIndex
+      ? { ...track, clips: track.clips.map((c) => setCaptionItalicOnClip(c, italic)) }
+      : track
+  )
+  return { ...project, tracks }
+}
+
+/** Set text alignment on ONE caption clip. */
+export function setCaptionAlignOnClip(clip: Clip, align: 'left' | 'center' | 'right'): Clip {
+  if (clip.text === undefined) return clip
+  return { ...clip, text: { ...clip.text, align } }
+}
+
+/** Set text alignment on EVERY clip of the Caption track. No-op without a Caption track. */
+export function setCaptionAlignOnClips(project: Project, align: 'left' | 'center' | 'right'): Project {
+  const trackIndex = project.tracks.findIndex((t) => t.id === CAPTION_TRACK_ID)
+  if (trackIndex === -1) return project
+  const tracks = project.tracks.map((track, i) =>
+    i === trackIndex
+      ? { ...track, clips: track.clips.map((c) => setCaptionAlignOnClip(c, align)) }
+      : track
+  )
+  return { ...project, tracks }
+}
+
+/** Stamp curve (arc) onto ONE caption clip's text font surface. */
+export function setCaptionCurveOnClip(clip: Clip, curve: number): Clip {
+  if (clip.text === undefined) return clip
+  const font = clip.text.font ?? {}
+  return { ...clip, text: { ...clip.text, font: { ...font, curve } } }
+}
+
+/** Stamp curve onto EVERY clip of the Caption track. No-op without a Caption track. */
+export function setCaptionCurveOnClips(project: Project, curve: number): Project {
+  const trackIndex = project.tracks.findIndex((t) => t.id === CAPTION_TRACK_ID)
+  if (trackIndex === -1) return project
+  const tracks = project.tracks.map((track, i) =>
+    i === trackIndex
+      ? { ...track, clips: track.clips.map((c) => setCaptionCurveOnClip(c, curve)) }
+      : track
+  )
+  return { ...project, tracks }
+}
+
+// ---------------------------------------------------------------------------
+// Decoration & Effects — caption-track-wide stampers
+// ---------------------------------------------------------------------------
+
+/**
+ * Replace the decoration bag on EVERY clip of the Caption track.
+ * No-op without a Caption track.
+ */
+export function setCaptionDecorationOnClips(
+  project: Project,
+  decoration: Record<string, unknown> | null
+): Project {
+  const trackIndex = project.tracks.findIndex((t) => t.id === CAPTION_TRACK_ID)
+  if (trackIndex === -1) return project
+  const tracks = project.tracks.map((track, i) =>
+    i === trackIndex
+      ? {
+          ...track,
+          clips: track.clips.map((c) => {
+            if (c.text === undefined) return c
+            const text = { ...c.text }
+            if (decoration === null) {
+              delete text.decoration
+            } else {
+              text.decoration = decoration
+            }
+            return { ...c, text }
+          })
+        }
+      : track
+  )
+  return { ...project, tracks }
+}
+
+/**
+ * Replace the effects array on EVERY clip of the Caption track.
+ * No-op without a Caption track.
+ */
+export function setCaptionEffectsOnClips(
+  project: Project,
+  effects: unknown[] | null
+): Project {
+  const trackIndex = project.tracks.findIndex((t) => t.id === CAPTION_TRACK_ID)
+  if (trackIndex === -1) return project
+  const tracks = project.tracks.map((track, i) =>
+    i === trackIndex
+      ? {
+          ...track,
+          clips: track.clips.map((c) => {
+            if (c.text === undefined) return c
+            const text = { ...c.text }
+            if (effects === null || effects.length === 0) {
+              delete text.effects
+            } else {
+              text.effects = effects as ClipText['effects']
+            }
+            return { ...c, text }
+          })
+        }
+      : track
+  )
+  return { ...project, tracks }
+}
+

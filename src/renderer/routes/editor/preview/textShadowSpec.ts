@@ -198,10 +198,14 @@ export function hasShadow(shadow: ResolvedTextShadow | null): shadow is Resolved
  * casts exactly ONE shadow (see the module's "avoiding a doubled shadow" note).
  */
 export function applyDropShadow(ctx: CanvasRenderingContext2D, shadow: ResolvedTextShadow): void {
+  const t = ctx.getTransform()
+  const scaleX = t.a || 1
+  const scaleY = t.d || 1
+
   ctx.shadowColor = shadow.color
-  ctx.shadowBlur = shadow.blur
-  ctx.shadowOffsetX = shadow.offset.x
-  ctx.shadowOffsetY = shadow.offset.y
+  ctx.shadowBlur = shadow.blur * scaleX
+  ctx.shadowOffsetX = shadow.offset.x * scaleX
+  ctx.shadowOffsetY = shadow.offset.y * scaleY
 }
 
 /** Clear any shadow on the context so subsequent draw ops cast NONE. */

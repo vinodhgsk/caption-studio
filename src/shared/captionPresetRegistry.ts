@@ -48,6 +48,13 @@ export const PRESET_GRAND_TEMPLE_GOLD = 'grand-temple-gold'
  * rounded Baloo Thambi 2 face. This is the auto-caption default.
  */
 export const PRESET_SARVAM_BHAKTI_GOLD_3D = 'sarvam-bhakti-gold-3d'
+/**
+ * Cinematic devotional title-card gold — a dramatic, radiant golden 3D style
+ * with a warm amber glow halo, heavy extrusion, and center-anchored cinematic
+ * positioning. Designed for Tamil devotional music video titles/captions where
+ * the text appears as a grand static title (no per-word highlight).
+ */
+export const PRESET_DIVINE_REVELATION_GOLD = 'divine-revelation-gold'
 
 /** The ids of the shipped built-ins, in gallery display order. */
 export const BUILT_IN_PRESET_IDS = [
@@ -62,7 +69,8 @@ export const BUILT_IN_PRESET_IDS = [
   PRESET_BOUNCE,
   PRESET_TYPEWRITER,
   PRESET_BHAKTHI_GOLD,
-  PRESET_GRAND_TEMPLE_GOLD
+  PRESET_GRAND_TEMPLE_GOLD,
+  PRESET_DIVINE_REVELATION_GOLD
 ] as const
 
 /**
@@ -610,6 +618,119 @@ function sarvamBhaktiGold3d(): CaptionPreset {
   }
 }
 
+/**
+ * Divine Revelation Gold — cinematic devotional title-card style.
+ *
+ * A dramatic, radiant golden 3D treatment with a warm amber glow halo behind the
+ * text (the "divine light" emanation), heavy bronze extrusion for cinematic depth,
+ * a pronounced polished-metal bevel, and center-anchored title-card positioning.
+ * Designed for Tamil devotional music video titles where the text appears as a
+ * grand static headline (no per-word highlight, max 3 lines).
+ *
+ * Visual differences from the existing gold presets:
+ *   - **Glow effect** (warm amber radiance) — no other gold preset has a glow.
+ *   - **Deeper 3D extrusion** (40px vs 30–34px) — heavier cinematic depth.
+ *   - **More saturated gradient** — warm cinematic gold, less polished-metal.
+ *   - **Center anchor + 3 max lines** — title-card positioning, not lower-third.
+ *   - **Highlight disabled** — this is a static title, not a sung lyric.
+ *   - **Larger scale** (160px) and wider letter spacing (1.5px).
+ */
+function divineRevelationGold(): CaptionPreset {
+  const effects: TextEffect[] = [
+    {
+      // Heavy cinematic 3D extrusion wall — bronze side-depth, mostly down + slight
+      // right (100°), deeper than the other gold presets for a dramatic poster feel.
+      type: '3d',
+      enabled: true,
+      opacity: 1,
+      intensity: 1,
+      params: { depth: 40, angle: 100, color: '#A05608' }
+    },
+    {
+      // Pronounced bevel / gloss — bright specular rim on top, warm shaded rim on
+      // bottom. Higher opacity (0.85) than the other golds for a more dramatic sheen.
+      type: 'bevel',
+      enabled: true,
+      opacity: 0.85,
+      intensity: 1,
+      params: { size: 3, highlight: '#FFFEF0', shadow: '#5C2D08', angle: 90 }
+    },
+    {
+      // THE distinguishing effect: a warm amber glow halo behind the text — the
+      // "divine radiance" emanating from behind the golden letters. No other gold
+      // preset carries a glow; this is what gives the cinematic poster feel.
+      type: 'glow',
+      enabled: true,
+      opacity: 0.85,
+      intensity: 0.5,
+      params: { radius: 32, color: '#FF9800' }
+    }
+  ]
+  return {
+    id: PRESET_DIVINE_REVELATION_GOLD,
+    displayName: 'Divine Revelation Gold',
+    category: 'caption',
+    font: {
+      // Baloo Thambi 2 — heavy ROUNDED Tamil display face (matches the reference
+      // poster letterform). Larger than any other preset for cinematic impact.
+      family: 'Baloo Thambi 2',
+      size: 160,
+      weight: 800,
+      italic: false,
+      letterSpacing: 1.5,
+      lineHeight: 1.1,
+      fallback: ['Noto Sans Tamil', DEFAULT_CAPTION_FONT_FAMILY, 'sans-serif']
+    },
+    // Cinematic gold gradient (90° top→bottom): warm and saturated — a brighter,
+    // more film-poster gold than the polished-metal multi-band ramp the other
+    // presets use. Six stops from creamy highlight to deep burnt-sienna base.
+    fill: {
+      type: 'gradient',
+      angle: 90,
+      value: [
+        { offset: 0.0,  color: '#FFF5B8' },
+        { offset: 0.2,  color: '#FFD54F' },
+        { offset: 0.45, color: '#E8A317' },
+        { offset: 0.6,  color: '#C87A0A' },
+        { offset: 0.8,  color: '#A05608' },
+        { offset: 1.0,  color: '#6B3506' }
+      ],
+      opacity: 1,
+      perWord: false
+    },
+    // Thick dark-brown contour + warm saddlebrown inner edge — heavier than other
+    // presets (width 14 outer) for cinematic weight over bright backgrounds.
+    stroke: [
+      { color: '#2A1200', width: 14 },
+      { color: '#8B4513', width: 5 }
+    ],
+    // Heavy warm drop shadow — deeper blur + distance than other golds for the
+    // cinematic floating-above-the-scene depth.
+    shadow: {
+      color: '#1A0A00',
+      opacity: 0.65,
+      blur: 20,
+      angle: 90,
+      distance: 10,
+      inner: false,
+      long: false
+    },
+    effects,
+    animation: {
+      in: { preset: 'fade', durationSec: 0.3, easing: 'easeOut' },
+      // No per-word reveal — the entire title appears as a cinematic headline.
+      reveal: { mode: 'none', staggerSec: 0, easing: 'linear' }
+    },
+    // Center anchor for title-card positioning; 3 max lines for longer devotional
+    // titles (e.g. "வெற்றிவேல் முருகனுக்கு அரோகரா..." across multiple lines).
+    layout: { anchor: 'center', safeMargin: true, maxLines: 3 },
+    // Highlight DISABLED — this is a static title, not a sung lyric with per-word
+    // vocal sync. The activeColor is set to a neutral gold so if highlight is ever
+    // toggled on manually it still reads as gold.
+    highlight: { enabled: false, activeColor: '#FFD54F', activeScale: 1, style: 'wholeWord' }
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Registry storage
 // ---------------------------------------------------------------------------
@@ -628,7 +749,8 @@ const BUILT_IN_FACTORIES: Record<string, () => CaptionPreset> = {
   [PRESET_BOUNCE]: bounce,
   [PRESET_TYPEWRITER]: typewriter,
   [PRESET_BHAKTHI_GOLD]: bhakthiGold,
-  [PRESET_GRAND_TEMPLE_GOLD]: grandTempleGold
+  [PRESET_GRAND_TEMPLE_GOLD]: grandTempleGold,
+  [PRESET_DIVINE_REVELATION_GOLD]: divineRevelationGold
 }
 
 /** Validate the built-ins ONCE at module load — a bad built-in must fail loudly. */

@@ -68,7 +68,7 @@ export function PanelContainer(): JSX.Element {
   return (
     <aside
       aria-label={`${label} panel`}
-      className="flex w-72 shrink-0 flex-col border-l border-line bg-surface-1 overflow-hidden"
+      className="flex w-80 shrink-0 flex-col border-l border-line bg-surface-1 overflow-hidden"
     >
       {/* Panel header — matches CapCut's right-panel header style */}
       <div className="flex h-10 shrink-0 items-center justify-between border-b border-line px-4">

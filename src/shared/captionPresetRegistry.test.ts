@@ -5,6 +5,7 @@ import {
   DEFAULT_APPLIED_CAPTION_PRESET_ID,
   PRESET_BHAKTHI_GOLD,
   PRESET_BOUNCE,
+  PRESET_DIVINE_REVELATION_GOLD,
   PRESET_GRAND_TEMPLE_GOLD,
   PRESET_KARAOKE_HIGHLIGHT,
   PRESET_POP_BY_WORD,
@@ -58,9 +59,10 @@ describe('built-in preset registry', () => {
       PRESET_BOUNCE,
       PRESET_TYPEWRITER,
       PRESET_BHAKTHI_GOLD,
-      PRESET_GRAND_TEMPLE_GOLD
+      PRESET_GRAND_TEMPLE_GOLD,
+      PRESET_DIVINE_REVELATION_GOLD
     ])
-    expect(new Set(BUILT_IN_PRESET_IDS).size).toBe(9)
+    expect(new Set(BUILT_IN_PRESET_IDS).size).toBe(10)
   })
 
   it('DEFAULT_APPLIED_CAPTION_PRESET_ID is Sarvam Bhakti Gold 3D — the signature gold default', () => {
@@ -142,6 +144,26 @@ describe('built-in preset registry', () => {
     expect(p.highlight.style).toBe('wholeWord')
     expect(p.highlight.enabled).toBe(true)
     expect(p.stroke?.length ?? 0).toBeGreaterThan(0)
+  })
+
+  it('Divine Revelation Gold has center anchor, glow effect, and no active-word highlight', () => {
+    const p = getCaptionPreset(PRESET_DIVINE_REVELATION_GOLD)!
+    expect(p).toBeDefined()
+    // Center-anchored cinematic title positioning (not lower-third).
+    expect(p.layout.anchor).toBe('center')
+    expect(p.layout.maxLines).toBe(3)
+    // Highlight disabled — static title, not a sung lyric.
+    expect(p.highlight.enabled).toBe(false)
+    // THE distinguishing effect: a warm amber glow (no other gold preset has one).
+    expect(p.effects?.some((e) => e.type === 'glow')).toBe(true)
+    // Also has 3D extrusion and bevel.
+    expect(p.effects?.some((e) => e.type === '3d')).toBe(true)
+    expect(p.effects?.some((e) => e.type === 'bevel')).toBe(true)
+    // Cinematic gold gradient fill.
+    expect(p.fill.type).toBe('gradient')
+    expect(p.fill.angle).toBe(90)
+    // Larger font size for cinematic impact.
+    expect(p.font.size).toBeGreaterThanOrEqual(160)
   })
 })
 

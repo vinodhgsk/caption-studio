@@ -65,6 +65,12 @@ import {
   setCaptionShadowOnClips,
   setCaptionGlowOnClips,
   setCaptionStrokeOnClips,
+  setCaptionBoldOnClips,
+  setCaptionItalicOnClips,
+  setCaptionAlignOnClips,
+  setCaptionCurveOnClips,
+  setCaptionDecorationOnClips,
+  setCaptionEffectsOnClips,
   stampPresetOntoClips,
   wrapCaptionClipsByWords
 } from './captionTrack'
@@ -654,6 +660,78 @@ export function setCaptionStrokeCommand(project: Project, stroke: PresetStrokeLa
   return {
     label: 'Set caption stroke',
     apply: (p) => setCaptionStrokeOnClips(p, stroke),
+    invert: (p) =>
+      priorClips === null ? p : restoreTrackClips(p, CAPTION_TRACK_ID, priorClips)
+  }
+}
+
+export function setCaptionBoldCommand(project: Project, bold: boolean): Command {
+  const existing = project.tracks.find((t) => t.id === CAPTION_TRACK_ID)
+  const priorClips = existing?.clips ?? null
+  return {
+    label: bold ? 'Bold captions' : 'Unbold captions',
+    apply: (p) => setCaptionBoldOnClips(p, bold),
+    invert: (p) =>
+      priorClips === null ? p : restoreTrackClips(p, CAPTION_TRACK_ID, priorClips)
+  }
+}
+
+export function setCaptionItalicCommand(project: Project, italic: boolean): Command {
+  const existing = project.tracks.find((t) => t.id === CAPTION_TRACK_ID)
+  const priorClips = existing?.clips ?? null
+  return {
+    label: italic ? 'Italicize captions' : 'Remove caption italic',
+    apply: (p) => setCaptionItalicOnClips(p, italic),
+    invert: (p) =>
+      priorClips === null ? p : restoreTrackClips(p, CAPTION_TRACK_ID, priorClips)
+  }
+}
+
+export function setCaptionAlignCommand(project: Project, align: 'left' | 'center' | 'right'): Command {
+  const existing = project.tracks.find((t) => t.id === CAPTION_TRACK_ID)
+  const priorClips = existing?.clips ?? null
+  return {
+    label: `Align captions ${align}`,
+    apply: (p) => setCaptionAlignOnClips(p, align),
+    invert: (p) =>
+      priorClips === null ? p : restoreTrackClips(p, CAPTION_TRACK_ID, priorClips)
+  }
+}
+
+export function setCaptionCurveCommand(project: Project, curve: number): Command {
+  const existing = project.tracks.find((t) => t.id === CAPTION_TRACK_ID)
+  const priorClips = existing?.clips ?? null
+  return {
+    label: 'Set caption curve',
+    apply: (p) => setCaptionCurveOnClips(p, curve),
+    invert: (p) =>
+      priorClips === null ? p : restoreTrackClips(p, CAPTION_TRACK_ID, priorClips)
+  }
+}
+
+export function setCaptionDecorationCommand(
+  project: Project,
+  decoration: Record<string, unknown> | null
+): Command {
+  const existing = project.tracks.find((t) => t.id === CAPTION_TRACK_ID)
+  const priorClips = existing?.clips ?? null
+  return {
+    label: 'Set caption decoration',
+    apply: (p) => setCaptionDecorationOnClips(p, decoration),
+    invert: (p) =>
+      priorClips === null ? p : restoreTrackClips(p, CAPTION_TRACK_ID, priorClips)
+  }
+}
+
+export function setCaptionEffectsCommand(
+  project: Project,
+  effects: unknown[] | null
+): Command {
+  const existing = project.tracks.find((t) => t.id === CAPTION_TRACK_ID)
+  const priorClips = existing?.clips ?? null
+  return {
+    label: 'Set caption effects',
+    apply: (p) => setCaptionEffectsOnClips(p, effects),
     invert: (p) =>
       priorClips === null ? p : restoreTrackClips(p, CAPTION_TRACK_ID, priorClips)
   }

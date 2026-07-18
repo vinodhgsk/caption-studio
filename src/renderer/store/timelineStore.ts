@@ -31,6 +31,7 @@ import {
 } from '../../shared/userPreset'
 import { useProjectStore } from './projectStore'
 import { getCaptionPreset } from '../../shared/captionPresetRegistry'
+import { useUserPresetStore } from './userPresetStore'
 import {
   CAPTION_TRACK_ID,
   addClipCommand,
@@ -85,6 +86,12 @@ import {
   setCaptionShadowCommand,
   setCaptionGlowCommand,
   setCaptionStrokeCommand,
+  setCaptionBoldCommand,
+  setCaptionItalicCommand,
+  setCaptionAlignCommand,
+  setCaptionCurveCommand,
+  setCaptionDecorationCommand,
+  setCaptionEffectsCommand,
   wrapCaptionTextCommand
 } from './timeline'
 import { projectDurationSec } from '../routes/editor/timeline/scale'
@@ -711,6 +718,18 @@ export interface TimelineState {
   setCaptionShadow: (shadow: PresetShadow | null) => boolean
   setCaptionGlow: (glow: { radius: number; color: string } | null) => boolean
   setCaptionStroke: (stroke: PresetStrokeLayer[]) => boolean
+  /** Toggle bold on every caption clip in one undoable step. */
+  setCaptionBold: (bold: boolean) => boolean
+  /** Toggle italic on every caption clip in one undoable step. */
+  setCaptionItalic: (italic: boolean) => boolean
+  /** Set text alignment on every caption clip in one undoable step. */
+  setCaptionAlign: (align: 'left' | 'center' | 'right') => boolean
+  /** Set curve/arc on every caption clip in one undoable step. */
+  setCaptionCurve: (curve: number) => boolean
+  /** Set decoration bag on every caption clip in one undoable step. */
+  setCaptionDecoration: (decoration: Record<string, unknown> | null) => boolean
+  /** Set effects array on every caption clip in one undoable step. */
+  setCaptionEffects: (effects: unknown[] | null) => boolean
   /**
    * Wrap each caption clip's text into multiple visual lines (populating
    * `text.lines`) by splitting at `maxWordsPerLine` words per line. Does NOT
@@ -1767,11 +1786,42 @@ export const useTimelineStore = create<TimelineState>((set, get) => ({
   applyCaptionPreset: (presetId) => {
     const project = useProjectStore.getState().currentProject
     if (project === null) return false
-    // Unknown preset id → no-op.
-    const preset = getCaptionPreset(presetId)
-    if (preset === undefined) return false
     // No Caption track → no-op (nothing to stamp the style onto).
     if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
+
+    // Check built-in registry
+    let preset = getCaptionPreset(presetId)
+
+    if (preset === undefined) {
+      // Check user preset store
+      const userPreset = useUserPresetStore.getState().presets.find((p) => p.id === presetId)
+      if (userPreset) {
+        const aspectKey = (project.settings.aspect ?? '9:16') as '9:16' | '16:9' | '1:1'
+        const layout = resolveVariant(userPreset.variants, aspectKey)
+        preset = {
+          id: userPreset.id,
+          displayName: userPreset.name,
+          font: userPreset.style.font ?? { family: 'Inter', size: 144 },
+          fill: userPreset.style.fill,
+          stroke: userPreset.style.stroke,
+          shadow: userPreset.style.shadow,
+          effects: userPreset.style.effects,
+          decoration: userPreset.style.decoration,
+          animation: userPreset.animation,
+          layout: layout
+            ? {
+                anchor: layout.anchor ?? 'center',
+                y: layout.y,
+                safeMargin: layout.safeMargin,
+                maxLines: layout.maxLines,
+                blockHeight: layout.blockHeight
+              }
+            : undefined
+        } as any // cast needed if optional fields differ slightly
+      }
+    }
+
+    if (preset === undefined) return false
 
     useProjectStore.getState().runCommand(applyCaptionPresetCommand(project, preset))
     return true
@@ -1864,6 +1914,54 @@ export const useTimelineStore = create<TimelineState>((set, get) => ({
     if (project === null) return false
     if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
     useProjectStore.getState().runCommand(setCaptionStrokeCommand(project, stroke))
+    return true
+  },
+
+  setCaptionBold: (bold) => {
+    const project = useProjectStore.getState().currentProject
+    if (project === null) return false
+    if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
+    useProjectStore.getState().runCommand(setCaptionBoldCommand(project, bold))
+    return true
+  },
+
+  setCaptionItalic: (italic) => {
+    const project = useProjectStore.getState().currentProject
+    if (project === null) return false
+    if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
+    useProjectStore.getState().runCommand(setCaptionItalicCommand(project, italic))
+    return true
+  },
+
+  setCaptionAlign: (align) => {
+    const project = useProjectStore.getState().currentProject
+    if (project === null) return false
+    if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
+    useProjectStore.getState().runCommand(setCaptionAlignCommand(project, align))
+    return true
+  },
+
+  setCaptionCurve: (curve) => {
+    const project = useProjectStore.getState().currentProject
+    if (project === null) return false
+    if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
+    useProjectStore.getState().runCommand(setCaptionCurveCommand(project, curve))
+    return true
+  },
+
+  setCaptionDecoration: (decoration) => {
+    const project = useProjectStore.getState().currentProject
+    if (project === null) return false
+    if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
+    useProjectStore.getState().runCommand(setCaptionDecorationCommand(project, decoration))
+    return true
+  },
+
+  setCaptionEffects: (effects) => {
+    const project = useProjectStore.getState().currentProject
+    if (project === null) return false
+    if (!project.tracks.some((t) => t.id === CAPTION_TRACK_ID)) return false
+    useProjectStore.getState().runCommand(setCaptionEffectsCommand(project, effects))
     return true
   },
 
