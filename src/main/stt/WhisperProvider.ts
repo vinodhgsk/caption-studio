@@ -20,7 +20,7 @@
  * the IPC wrapper turns the throw into `{ ok:false, error }` and the registry
  * keeps the stub as the graceful fallback (registry.ts → `selectDefaultProvider`).
  */
-import { spawn } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -50,16 +50,23 @@ export function whisperModel(): string {
   return process.env.CAPTION_STUDIO_WHISPER_MODEL ?? 'models/ggml-base.bin'
 }
 
+/** Helper to check if a command is executable on the system PATH or disk. */
+function canRunCommand(cmd: string): boolean {
+  try {
+    const res = spawnSync(cmd, ['--help'], { stdio: 'ignore' })
+    return res.error === undefined
+  } catch {
+    return false
+  }
+}
+
 /**
- * True when both the whisper binary (absolute path) and the model file exist on
- * disk, so the registry can pick whisper as the default only when usable and
- * otherwise fall back to the stub. A bare command name (no separator) is treated
- * as "on PATH" → assume present (we cannot cheaply stat a PATH lookup here).
+ * True when both the whisper binary (absolute path or on PATH) and the model file
+ * exist on disk, and the binary is actually executable.
  */
 export function isWhisperAvailable(): boolean {
   const bin = whisperBin()
-  const binOk = bin.includes('/') || bin.includes('\\') ? existsSync(bin) : true
-  return binOk && existsSync(whisperModel())
+  return canRunCommand(bin) && existsSync(whisperModel())
 }
 
 /**

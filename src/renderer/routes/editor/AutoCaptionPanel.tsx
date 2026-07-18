@@ -374,32 +374,7 @@ return (
         ))}
       </select>
     </label>
-      <div className="mt-3 flex justify-end">
-        <button
-          onClick={() => {
-            const name = window.prompt('Enter name for new custom style:', 'My Custom Style')
-            if (!name) return
-            const presetId = crypto.randomUUID()
-            const text = captionClips[0]?.text
-            const animation = captionClips[0]?.animation ?? {}
-            const store = useUserPresetStore.getState()
-            store.savePreset({
-              id: presetId,
-              name,
-              createdAt: new Date().toISOString(),
-              style: clipTextToPresetStyle(text),
-              animation,
-              variants: {}
-            }).then(() => {
-              applyCaptionPreset(presetId)
-            })
-          }}
-          disabled={running || !hasCaptionTrack}
-          className="text-xs font-medium text-blue-500 hover:text-blue-400 disabled:opacity-50"
-        >
-          + Save as custom style
-        </button>
-      </div>
+
 
     {mode === 'lyricsFirst' && (
       <>
@@ -597,6 +572,35 @@ return (
       <p className="text-xs text-text-muted">
         Applies the style to the whole caption track. Generate captions first to enable.
       </p>
+      {hasCaptionTrack && (
+        <div className="mt-2 flex justify-end">
+          <button
+            type="button"
+            onClick={() => {
+              const name = window.prompt('Enter name for new custom style:', 'My Custom Style')
+              if (!name) return
+              const presetId = crypto.randomUUID()
+              const text = captionClips[0]?.text
+              const animation = captionClips[0]?.animation ?? {}
+              const store = useUserPresetStore.getState()
+              void store.savePreset({
+                id: presetId,
+                name,
+                createdAt: new Date().toISOString(),
+                style: clipTextToPresetStyle(text),
+                animation,
+                variants: {}
+              }).then(() => {
+                applyCaptionPreset(presetId)
+              })
+            }}
+            disabled={running}
+            className="rounded-md border border-line px-2 py-1 text-xs text-text-primary hover:bg-surface-2 disabled:opacity-50"
+          >
+            + Save as custom style
+          </button>
+        </div>
+      )}
     </Section>
 
     {/* Caption position (P5.8): choose the block's vertical anchor

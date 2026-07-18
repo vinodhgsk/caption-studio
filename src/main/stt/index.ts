@@ -20,6 +20,7 @@ import { DEFAULT_LANGUAGE } from '../../shared/stt'
 import { detectVocalRegions } from '../../shared/vocalActivity'
 import { detectBeats } from '../../shared/beatDetect'
 import { getSttProvider } from './registry'
+import { StubSttProvider } from './StubProvider'
 import { runForcedAlign } from './forcedAlign'
 import { readWavDurationSec } from './wavDuration'
 import { readWavPcmMono } from './wavPcm'
@@ -37,9 +38,19 @@ export function registerSttIpc(): void {
     const provider = getProvider(request.ref.location)
     const bundlePath = provider.resolvePath(request.ref)
 
-    const transcript = await getSttProvider().transcribe(bundlePath, request.wavRef, {
-      language: request.language
-    })
+    let transcript
+    try {
+      transcript = await getSttProvider().transcribe(bundlePath, request.wavRef, {
+        language: request.language
+      })
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      console.warn(`STT provider failed: ${msg}. Falling back to stub provider.`)
+      const stub = new StubSttProvider()
+      transcript = await stub.transcribe(bundlePath, request.wavRef, {
+        language: request.language
+      })
+    }
 
     // Persist transcript.json into the bundle's cache/ (ensure it exists).
     const layout = bundleLayout(bundlePath)
