@@ -74,6 +74,8 @@ export type DrawFillSpec =
 export interface TextDrawSpec {
   /** CSS `font` shorthand (style weight size family, fallback joined). */
   font: string
+  /** The specific font family string for encoding conversion checks. */
+  fontFamily: string
   /** Font size in px (drives line height / measurement / layout). */
   fontSizePx: number
   /** Line-height multiple. */
@@ -201,6 +203,7 @@ export function presetToTextDrawSpec(preset: CaptionPreset): TextDrawSpec {
   const deco = preset.decoration as Record<string, unknown> | undefined
   return {
     font: cssFontShorthand(preset.font),
+    fontFamily: preset.font.family,
     fontSizePx: preset.font.size,
     lineHeight: preset.font.lineHeight,
     letterSpacing: preset.font.letterSpacing,
@@ -316,7 +319,9 @@ export function drawPresetCaption(
   // letterSpacing is fed to the layout math AND set on the context below so the
   // measured block width and the painted advance agree (preview = export).
   ctx.font = spec.font
-  const measure: MeasureWidth = (line) => ctx.measureText(line).width
+  const { isBaminiFont, toBamini } = require('../../../shared/bamini')
+  const bamini = isBaminiFont(spec.fontFamily)
+  const measure: MeasureWidth = (line) => ctx.measureText(bamini ? toBamini(line) : line).width
   const block = textBlockSize(lines, spec.fontSizePx, spec.lineHeight, measure, spec.letterSpacing)
   const padding = spec.background?.paddingX ?? 0
   const scale = fitScale(block.w, block.h, width, height, padding, margin)
@@ -368,14 +373,18 @@ export function drawPresetCaption(
     spec.stroke.length > 0 ? { layers: spec.stroke, hollow: false } : null
   const linePaint = fillStyle(ctx, spec.fill, block.w)
 
+  const { isBaminiFont, toBamini } = require('../../../shared/bamini')
+  const bamini = isBaminiFont(spec.fontFamily)
+
   for (const l of laid) {
     if (l.line.length === 0) continue
     // The SINGLE canonical pipeline (P6.15): shadow (drop/long behind) → stroke
     // (widest→thinnest) → fill → inner shadow → effects hook. Same order + same
     // function the live preview runs, so the thumbnail = the applied caption.
+    const textToDraw = bamini ? toBamini(l.line) : l.line
     paintGlyphPasses({
       ctx,
-      token: { text: l.line, x: l.x, y: l.y },
+      token: { text: textToDraw, x: l.x, y: l.y },
       shadow: spec.shadow,
       stroke,
       effects: spec.effects,

@@ -659,7 +659,9 @@ export function drawTextClips(
     // a letterSpacing-aware `ctx.measureText` matches the painted advance).
     ctx.font = fontShorthand
     setLetterSpacing(ctx, letterSpacing)
-    const measure = (line: string): number => ctx.measureText(line).width
+    const { isBaminiFont, toBamini } = require('../../../../shared/bamini')
+    const bamini = isBaminiFont(font.family)
+    const measure = (s: string) => ctx.measureText(bamini ? toBamini(s) : s).width
     const block = textBlockSize(lines, fontPx, lineHeightMult, measure, letterSpacing)
     // Report a minimum 1×lineHeight box so an all-empty clip is still selectable.
     const minH = fontPx * lineHeightMult
@@ -854,6 +856,7 @@ export function drawTextClips(
         // A cue is shown in full, never typed out — ignore character slicing for it.
         const token = isCharacter && cue === null ? revealedWordText(p.word, rs.revealedGraphemes) : p.word
         if (token.length === 0) return
+        const baminiToken = bamini ? toBamini(token) : token
         ctx.globalAlpha = clipAlpha * rs.opacity * (cue?.opacity ?? 1)
 
         if (cue !== null) {
@@ -866,7 +869,7 @@ export function drawTextClips(
           ctx.font = fontShorthandWithList({ ...font, italic: cue.italic }, familyList)
           paintGlyphPasses({
             ctx,
-            token: { text: token, x: p.x, y: p.y },
+            token: { text: baminiToken, x: p.x, y: p.y },
             shadow: shadowOn ? shadowSpec : null,
             stroke: strokeOn ? strokeSpec : null,
             effects: effectsPass,
@@ -905,6 +908,8 @@ export function drawTextClips(
           // boundary — one shadow/ring, not two seams); only the FILL pass splits the
           // body into the two colored halves.
           const { filled, rest } = splitWipe(token, hs.wipeProgress)
+          const baminiFilled = bamini ? toBamini(filled) : filled
+          const baminiRest = bamini ? toBamini(rest) : rest
           const baseFill = ctx.fillStyle
           ctx.save()
           ctx.textAlign = 'left'
@@ -913,20 +918,20 @@ export function drawTextClips(
             measuredLineWidth(filled, measure, letterSpacing) + (letterSpacing !== 0 ? letterSpacing : 0)
           paintGlyphPasses({
             ctx,
-            token: { text: token, x: leftEdge, y: drawY },
+            token: { text: baminiToken, x: leftEdge, y: drawY },
             shadow: shadowOn ? shadowSpec : null,
             stroke: strokeOn ? strokeSpec : null,
             effects: effectsPass,
             fill: (c) => {
-              if (filled.length > 0) {
+              if (baminiFilled.length > 0) {
                 c.fillStyle = hs.color ?? baseFill
-                c.fillText(filled, leftEdge, drawY)
+                c.fillText(baminiFilled, leftEdge, drawY)
               }
-              if (rest.length > 0) {
+              if (baminiRest.length > 0) {
                 c.fillStyle = baseFill
                 // Offset by the filled portion's letterSpacing-aware advance (plus one
                 // inter-cluster gap to the rest) so the wipe boundary matches layout.
-                c.fillText(rest, leftEdge + filledAdvance, drawY)
+                c.fillText(baminiRest, leftEdge + filledAdvance, drawY)
               }
             }
           })
@@ -940,7 +945,7 @@ export function drawTextClips(
           const tokenFill = ctx.fillStyle
           paintGlyphPasses({
             ctx,
-            token: { text: token, x: charX, y: drawY },
+            token: { text: baminiToken, x: charX, y: drawY },
             shadow: shadowOn ? shadowSpec : null,
             stroke: strokeOn ? strokeSpec : null,
             effects: effectsPass,
@@ -961,7 +966,7 @@ export function drawTextClips(
           const tokenFill = ctx.fillStyle
           paintGlyphPasses({
             ctx,
-            token: { text: token, x: drawX, y: drawY },
+            token: { text: baminiToken, x: drawX, y: drawY },
             shadow: shadowOn ? shadowSpec : null,
             stroke: strokeOn ? strokeSpec : null,
             effects: effectsPass,
@@ -1010,9 +1015,10 @@ export function drawTextClips(
           // Canonical pipeline (P6.15): each arc cluster casts its own shadow (it has
           // its own rotated/scaled transform) → stroke follows the curve per glyph →
           // fill on top → inner shadow. Hollow skips the fill (outline follows curve).
+          const baminiCluster = bamini ? toBamini(tr.cluster) : tr.cluster
           paintGlyphPasses({
             ctx,
-            token: { text: tr.cluster, x: 0, y: 0 },
+            token: { text: baminiCluster, x: 0, y: 0 },
             shadow: shadowOn ? shadowSpec : null,
             stroke: strokeOn ? strokeSpec : null,
             effects: effectsPass,
@@ -1027,9 +1033,10 @@ export function drawTextClips(
         // Canonical pipeline (P6.15): shadow (once per line, no doubling) → stroke
         // (outside-in, framing the glyph) → fill on top → inner shadow over the body.
         // Hollow (P6.12) skips the fill (and the inner shadow) for an outline-only line.
+        const baminiLine = bamini ? toBamini(l.line) : l.line
         paintGlyphPasses({
           ctx,
-          token: { text: l.line, x: l.x, y: l.y },
+          token: { text: baminiLine, x: l.x, y: l.y },
           shadow: shadowOn ? shadowSpec : null,
           stroke: strokeOn ? strokeSpec : null,
           effects: effectsPass,

@@ -33,7 +33,8 @@ export async function loadBundledFonts(): Promise<void> {
         })
         await ff.load()
         document.fonts.add(ff)
-      } catch {
+      } catch (e) {
+        console.error('Failed to load bundled font:', face.family, face.file, e);
         // Skip a single bad face; keep loading the rest.
       }
     }

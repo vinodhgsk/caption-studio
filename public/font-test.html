@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Font Test</title>
+</head>
+<body>
+  <div style="font-family: 'TestFont'; font-size: 40px;">Hello World - தமிழ்</div>
+  <script>
+    fetch('/1743920620_020.TTF')
+      .then(res => {
+        if (!res.ok) throw new Error('Network error');
+        return res.arrayBuffer();
+      })
+      .then(async buf => {
+        try {
+          const ff = new FontFace('TestFont', buf);
+          await ff.load();
+          document.fonts.add(ff);
+          console.log('Font loaded successfully');
+        } catch (e) {
+          console.log('Font load failed: ' + e.message);
+        }
+      });
+  </script>
+</body>
+</html>
