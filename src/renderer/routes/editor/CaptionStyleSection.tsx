@@ -247,81 +247,87 @@ export function CaptionStyleSection({ disabled }: { disabled: boolean }): JSX.El
       {disabled && <div className="absolute inset-0 z-10 bg-surface-1/50" />}
       
       <Section title="Typography">
-        <label className="flex flex-col gap-1 text-[11px] text-text-secondary">
-          Font
-          <select
-            value={font.family}
-            onChange={(e) => setCaptionFontFamilyAction(e.target.value)}
-            className="w-full rounded-sm border border-line bg-surface-2 px-2 py-1 text-xs text-text-primary"
-          >
-            <optgroup label="Tamil / devotional">
-              {fontOptions.tamil.map((fam) => (
-                <option key={fam} value={fam}>{fam}</option>
-              ))}
-            </optgroup>
-            <optgroup label="Other">
-              {fontOptions.rest.map((fam) => (
-                <option key={fam} value={fam}>{fam}</option>
-              ))}
-            </optgroup>
-          </select>
-        </label>
-        <NumberField label="Font size (px)" value={font.sizePx} min={8} max={400} onChange={(v) => setCaptionFontSizeAction(v)} />
-        
-        <div className="flex items-center gap-2">
-          <span className="w-16 text-[11px] text-text-secondary">Style</span>
-          <div className="flex min-w-0 flex-1 items-center gap-1">
-            <button
-              type="button"
-              aria-pressed={(Number(font.weight) >= 600)}
-              onClick={() => setCaptionBoldAction(!(Number(font.weight) >= 600))}
-              className={`flex h-6 flex-1 items-center justify-center rounded-sm border text-[11px] font-bold ${
-                (Number(font.weight) >= 600) ? 'border-accent bg-accent/20 text-text-primary' : 'border-line text-text-secondary hover:bg-surface-2'
-              }`}
+        <div className="responsive-layout-grid">
+          <label className="flex flex-col gap-1 text-[11px] text-text-secondary">
+            Font
+            <select
+              value={font.family}
+              onChange={(e) => setCaptionFontFamilyAction(e.target.value)}
+              className="w-full rounded-sm border border-line bg-surface-2 px-2 py-1 text-xs text-text-primary"
             >
-              B
-            </button>
-            <button
-              type="button"
-              aria-pressed={font.italic}
-              onClick={() => setCaptionItalicAction(!font.italic)}
-              className={`flex h-6 flex-1 items-center justify-center rounded-sm border text-[11px] italic ${
-                font.italic ? 'border-accent bg-accent/20 text-text-primary' : 'border-line text-text-secondary hover:bg-surface-2'
-              }`}
-            >
-              I
-            </button>
-          </div>
+              <optgroup label="Tamil / devotional">
+                {fontOptions.tamil.map((fam) => (
+                  <option key={fam} value={fam}>{fam}</option>
+                ))}
+              </optgroup>
+              <optgroup label="Other">
+                {fontOptions.rest.map((fam) => (
+                  <option key={fam} value={fam}>{fam}</option>
+                ))}
+              </optgroup>
+            </select>
+          </label>
+          <NumberField label="Font size (px)" value={font.sizePx} min={8} max={400} onChange={(v) => setCaptionFontSizeAction(v)} />
         </div>
-
-        <div className="flex items-center gap-2">
-          <span className="w-16 text-[11px] text-text-secondary">Align</span>
-          <div className="flex min-w-0 flex-1 items-center gap-1">
-            {TEXT_ALIGN_OPTIONS.map((a) => (
+        
+        <div className="responsive-style-align">
+          <div className="flex items-center gap-2">
+            <span className="w-12 text-[11px] text-text-secondary shrink-0">Style</span>
+            <div className="flex min-w-0 flex-1 items-center gap-1">
               <button
-                key={a}
                 type="button"
-                aria-label={`Align ${a}`}
-                aria-pressed={alignState === a}
-                onClick={() => setCaptionAlignAction(a as 'left' | 'center' | 'right')}
-                className={`flex h-6 flex-1 items-center justify-center rounded-sm border uppercase ${
-                  alignState === a
-                    ? 'border-accent bg-accent/20 text-text-primary'
-                    : 'border-line text-text-secondary hover:bg-surface-2'
+                aria-pressed={(Number(font.weight) >= 600)}
+                onClick={() => setCaptionBoldAction(!(Number(font.weight) >= 600))}
+                className={`flex h-6 flex-1 items-center justify-center rounded-sm border text-[11px] font-bold ${
+                  (Number(font.weight) >= 600) ? 'border-accent bg-accent/20 text-text-primary' : 'border-line text-text-secondary hover:bg-surface-2'
                 }`}
               >
-                {a.substring(0, 1)}
+                B
               </button>
-            ))}
+              <button
+                type="button"
+                aria-pressed={font.italic}
+                onClick={() => setCaptionItalicAction(!font.italic)}
+                className={`flex h-6 flex-1 items-center justify-center rounded-sm border text-[11px] italic ${
+                  font.italic ? 'border-accent bg-accent/20 text-text-primary' : 'border-line text-text-secondary hover:bg-surface-2'
+                }`}
+              >
+                I
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="w-12 text-[11px] text-text-secondary shrink-0">Align</span>
+            <div className="flex min-w-0 flex-1 items-center gap-1">
+              {TEXT_ALIGN_OPTIONS.map((a) => (
+                <button
+                  key={a}
+                  type="button"
+                  aria-label={`Align ${a}`}
+                  aria-pressed={alignState === a}
+                  onClick={() => setCaptionAlignAction(a as 'left' | 'center' | 'right')}
+                  className={`flex h-6 flex-1 items-center justify-center rounded-sm border uppercase ${
+                    alignState === a
+                      ? 'border-accent bg-accent/20 text-text-primary'
+                      : 'border-line text-text-secondary hover:bg-surface-2'
+                  }`}
+                >
+                  {a.substring(0, 1)}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         
-        <SliderField label="Line spacing" value={font.lineHeight} valueText={font.lineHeight.toFixed(1)} min={0.5} max={3.0} step={0.1} onChange={(v) => setCaptionLineHeightAction(v)} />
-        <SliderField label="Word spacing" value={font.letterSpacing ?? 0} valueText={`${font.letterSpacing ?? 0}px`} min={-20} max={100} step={1} onChange={(v) => setCaptionLetterSpacingAction(v)} />
+        <div className="responsive-sliders-grid">
+          <SliderField label="Line spacing" value={font.lineHeight} valueText={font.lineHeight.toFixed(1)} min={0.5} max={3.0} step={0.1} onChange={(v) => setCaptionLineHeightAction(v)} />
+          <SliderField label="Word spacing" value={font.letterSpacing ?? 0} valueText={`${font.letterSpacing ?? 0}px`} min={-20} max={100} step={1} onChange={(v) => setCaptionLetterSpacingAction(v)} />
+        </div>
         <SliderField label="Curve" value={font.curve ?? 0} valueText={`${Math.round((font.curve ?? 0) * 100)}%`} min={-1} max={1} step={0.01} onChange={(v) => setCaptionCurveAction(v)} />
 
-        <div className="mt-2 border-t border-line pt-2">
-          <label className="flex items-center justify-between gap-2 text-xs text-text-muted">
+        <div className="mt-2 border-t border-line pt-2 responsive-word-wrap">
+          <label className="flex items-center justify-between gap-2 text-xs text-text-muted h-7 shrink-0">
             <span>Word wrap</span>
             <input
               type="checkbox"
@@ -411,16 +417,18 @@ export function CaptionStyleSection({ disabled }: { disabled: boolean }): JSX.El
               <h4 className="text-[10px] font-semibold uppercase text-text-muted">Layer {i + 1}</h4>
               <button type="button" onClick={() => setCaptionStrokeAction(strokeLayers.filter((_, idx) => idx !== i).map(l => ({ color: l.hex, width: l.width })))} className="text-[11px] text-text-secondary hover:text-text-primary">✕</button>
             </div>
-            <ColorRow label="Color" value={layer.hex} onChange={(c) => {
-              const next = [...strokeLayers]
-              next[i] = { ...next[i], hex: c }
-              setCaptionStrokeAction(next.map(l => ({ color: l.hex, width: l.width })))
-            }} />
-            <SliderField label="Width" value={layer.width} valueText={formatPx(layer.width, 0)} min={0} max={100} step={1} onChange={(w) => {
-              const next = [...strokeLayers]
-              next[i] = { ...next[i], width: w }
-              setCaptionStrokeAction(next.map(l => ({ color: l.hex, width: l.width })))
-            }} />
+            <div className="responsive-stroke-layer">
+              <ColorRow label="Color" value={layer.hex} onChange={(c) => {
+                const next = [...strokeLayers]
+                next[i] = { ...next[i], hex: c }
+                setCaptionStrokeAction(next.map(l => ({ color: l.hex, width: l.width })))
+              }} />
+              <SliderField label="Width" value={layer.width} valueText={formatPx(layer.width, 0)} min={0} max={100} step={1} onChange={(w) => {
+                const next = [...strokeLayers]
+                next[i] = { ...next[i], width: w }
+                setCaptionStrokeAction(next.map(l => ({ color: l.hex, width: l.width })))
+              }} />
+            </div>
           </div>
         ))}
         <button
@@ -467,7 +475,7 @@ export function CaptionStyleSection({ disabled }: { disabled: boolean }): JSX.El
           </select>
         </div>
         {shadowState.on && (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 responsive-shadow-grid">
             <ColorRow label="Color" value={shadowState.color} onChange={(c) => setCaptionShadowAction({ color: c, opacity: shadowState.opacity, blur: shadowState.blur, angle: shadowState.angle, distance: shadowState.distance, inner: shadowState.type === 'inner', long: shadowState.type === 'long' })} />
             <SliderField label="Opacity" value={shadowState.opacity} valueText={formatPercent(shadowState.opacity)} min={0} max={1} step={0.01} onChange={(v) => setCaptionShadowAction({ color: shadowState.color, opacity: v, blur: shadowState.blur, angle: shadowState.angle, distance: shadowState.distance, inner: shadowState.type === 'inner', long: shadowState.type === 'long' })} />
             <SliderField label="Blur" value={shadowState.blur} valueText={formatPx(shadowState.blur, 0)} min={0} max={100} step={1} onChange={(v) => setCaptionShadowAction({ color: shadowState.color, opacity: shadowState.opacity, blur: v, angle: shadowState.angle, distance: shadowState.distance, inner: shadowState.type === 'inner', long: shadowState.type === 'long' })} />

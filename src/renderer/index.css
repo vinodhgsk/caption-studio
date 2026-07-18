@@ -38,3 +38,55 @@ body {
   font-family: theme('fontFamily.sans');
   -webkit-font-smoothing: antialiased;
 }
+
+/* Container queries for right panel customization */
+.right-panel-container {
+  container-type: inline-size;
+}
+
+.responsive-layout-grid,
+.responsive-style-align,
+.responsive-sliders-grid,
+.responsive-word-wrap,
+.responsive-stroke-layer,
+.responsive-shadow-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@container (min-width: 360px) {
+  .responsive-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: 0.75rem;
+  }
+  .responsive-style-align {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .responsive-sliders-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .responsive-word-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .responsive-stroke-layer {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .responsive-shadow-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+}
