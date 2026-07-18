@@ -61,14 +61,15 @@ function PanelBody({ id }: { id: PanelId }): JSX.Element {
  * - Styled header: panel name + reset (↺) and keyframe (◇) icon buttons
  * - Scrollable body
  */
-export function PanelContainer(): JSX.Element {
+export function PanelContainer({ width }: { width: number }): JSX.Element {
   const activePanel = useEditorStore((s) => s.activePanel)
   const label = labelFor(activePanel)
 
   return (
     <aside
       aria-label={`${label} panel`}
-      className="flex w-80 shrink-0 flex-col border-l border-line bg-surface-1 overflow-hidden"
+      className="flex shrink-0 flex-col border-l border-line bg-surface-1 overflow-hidden"
+      style={{ width }}
     >
       {/* Panel header — matches CapCut's right-panel header style */}
       <div className="flex h-10 shrink-0 items-center justify-between border-b border-line px-4">

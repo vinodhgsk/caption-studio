@@ -81,6 +81,31 @@ export default function Editor(): JSX.Element {
     e.currentTarget.releasePointerCapture(e.pointerId)
   }
 
+  const [panelWidth, setPanelWidth] = useState(320)
+  const [isDraggingPanel, setIsDraggingPanel] = useState(false)
+
+  const handlePanelPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setIsDraggingPanel(true)
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+
+  const handlePanelPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingPanel) return
+    const container = e.currentTarget.parentElement
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    const newWidth = rect.right - e.clientX
+    const minWidth = 240
+    const maxWidth = rect.width * 0.5
+    setPanelWidth(Math.max(minWidth, Math.min(newWidth, maxWidth)))
+  }
+
+  const handlePanelPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDraggingPanel(false)
+    e.currentTarget.releasePointerCapture(e.pointerId)
+  }
+
   // Keep audio-track clips audible in preview transport playback.
   usePreviewAudio(currentProject)
 
@@ -199,7 +224,19 @@ export default function Editor(): JSX.Element {
             <div className="flex flex-1 relative overflow-hidden">
               <PreviewRegion aspect={previewAspect} />
             </div>
-            <PanelContainer />
+            {/* Horizontal drag handle */}
+            <div
+              role="separator"
+              aria-label="Resize right panel"
+              onPointerDown={handlePanelPointerDown}
+              onPointerMove={handlePanelPointerMove}
+              onPointerUp={handlePanelPointerUp}
+              onPointerCancel={handlePanelPointerUp}
+              className="relative z-20 flex w-2 h-full cursor-col-resize items-center justify-center bg-transparent shrink-0 group -mx-1"
+            >
+              <div className="w-px h-full bg-line group-hover:bg-accent/70 group-active:bg-accent transition-colors" />
+            </div>
+            <PanelContainer width={panelWidth} />
           </div>
           {/* Vertical drag handle */}
           <div
@@ -234,7 +271,19 @@ export default function Editor(): JSX.Element {
             </div>
             <TimelineRegion height={timelineHeight} />
           </div>
-          <PanelContainer />
+          {/* Horizontal drag handle */}
+          <div
+            role="separator"
+            aria-label="Resize right panel"
+            onPointerDown={handlePanelPointerDown}
+            onPointerMove={handlePanelPointerMove}
+            onPointerUp={handlePanelPointerUp}
+            onPointerCancel={handlePanelPointerUp}
+            className="relative z-20 flex w-2 h-full cursor-col-resize items-center justify-center bg-transparent shrink-0 group -mx-1"
+          >
+            <div className="w-px h-full bg-line group-hover:bg-accent/70 group-active:bg-accent transition-colors" />
+          </div>
+          <PanelContainer width={panelWidth} />
         </div>
       )}
     </main>
