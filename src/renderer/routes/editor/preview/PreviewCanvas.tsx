@@ -8,7 +8,8 @@ import {
   clipSourceTime,
   computeDrawRect,
   computeDrawTransform,
-  visibleClipsAt
+  visibleClipsAt,
+  getTransitionModifier
 } from './compositor'
 import { drawKindFromMediaRef, mediaRefToUrl } from './mediaSource'
 import {
@@ -481,7 +482,7 @@ function drawFrame(
   ctx.globalAlpha = 1
   ctx.clearRect(0, 0, width, height)
 
-  for (const { clip } of items) {
+  for (const { clip, track } of items) {
     const source = drawables.get(clip.id)
     if (source === undefined || source === null) continue
 
@@ -519,11 +520,13 @@ function drawFrame(
       anim.clip
     )
 
+    const trans = getTransitionModifier(track, clip.id, t)
+
     ctx.save()
-    ctx.globalAlpha = dt.alpha * clipSample.opacity
-    ctx.translate(dt.translateX + clipSample.tx, dt.translateY + clipSample.ty)
+    ctx.globalAlpha = dt.alpha * clipSample.opacity * trans.opacity
+    ctx.translate(dt.translateX + clipSample.tx + trans.tx, dt.translateY + clipSample.ty + trans.ty)
     ctx.rotate(dt.rotation + clipSample.rotation)
-    ctx.scale(dt.scaleX * clipSample.scale, dt.scaleY * clipSample.scale)
+    ctx.scale(dt.scaleX * clipSample.scale * trans.scale, dt.scaleY * clipSample.scale * trans.scale)
     ctx.drawImage(source.element, rect.x, rect.y, rect.width, rect.height)
     ctx.restore()
   }
@@ -586,7 +589,7 @@ export function drawTextClips(
   presetHighlight?: PresetHighlight,
   skipClipId?: string | null
 ): void {
-  for (const { clip } of items) {
+  for (const { clip, track } of items) {
     // IMPORTANT: when inline-editing, we suppress PAINT for that clip to avoid
     // double text, but we MUST still compute/report its intrinsic block size so
     // TextEditOverlay can resolve bounds and mount the textarea.
@@ -700,12 +703,13 @@ export function drawTextClips(
       composeSamples(composeSamples(kfSample, pathSample), trackSample),
       anim.clip
     )
-    const animAlpha = dt.alpha * clipSample.opacity
-    const animTranslateX = dt.translateX + clipSample.tx
-    const animTranslateY = dt.translateY + clipSample.ty
+    const trans = getTransitionModifier(track, clip.id, t)
+    const animAlpha = dt.alpha * clipSample.opacity * trans.opacity
+    const animTranslateX = dt.translateX + clipSample.tx + trans.tx
+    const animTranslateY = dt.translateY + clipSample.ty + trans.ty
     const animRotation = dt.rotation + clipSample.rotation
-    const animScaleX = dt.scaleX * clipSample.scale
-    const animScaleY = dt.scaleY * clipSample.scale
+    const animScaleX = dt.scaleX * clipSample.scale * trans.scale
+    const animScaleY = dt.scaleY * clipSample.scale * trans.scale
     const laid = layoutTextLines(lines, fontPx, lineHeightMult, align, measure, letterSpacing)
 
     // Reveal coupling (P5.5): a caption clip carries per-word timing in

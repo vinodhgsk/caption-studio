@@ -12,6 +12,11 @@ import type { Clip, ClipTransform } from '../../../../shared/project-schema'
 import { clipDuration } from '../../../../shared/project-schema'
 import type { ProjectTrack } from '../../../../shared/storage'
 import { rotatePointInverse } from './rotate'
+import {
+  resolveTransition,
+  evaluateTransition,
+  type TransitionSample
+} from '../../../store/timeline/clipTransition'
 
 /** Visual track types the compositor draws. Audio is never drawn. */
 const DRAWN_TRACK_TYPES: ReadonlySet<ProjectTrack['type']> = new Set(['video', 'text', 'effect'])
@@ -47,14 +52,98 @@ export interface DrawItem {
  * Full canvas compositing (saving/restoring context state per clip) is out of
  * scope for this phase; the evaluator is the source of truth.
  */
+export interface ActiveTransitionInfo {
+  clipA: Clip
+  clipB: Clip
+  sample: TransitionSample
+}
+
+export function getActiveTransitionForTrack(
+  track: ProjectTrack,
+  t: number
+): ActiveTransitionInfo | null {
+  const clips = track.clips
+  for (let i = 0; i < clips.length - 1; i++) {
+    const clipA = clips[i]
+    const clipB = clips[i + 1]
+    const clipAEnd = clipA.start + clipDuration(clipA)
+
+    // Check clipA out transition
+    const outRef = resolveTransition(clipA.transitions?.out)
+    if (outRef !== undefined) {
+      const windowStart = clipAEnd - outRef.duration
+      if (t >= windowStart && t <= clipAEnd) {
+        const sample = evaluateTransition({ ref: outRef, clipAEnd, t })
+        return { clipA, clipB, sample }
+      }
+    }
+
+    // Check clipB in transition
+    const inRef = resolveTransition(clipB.transitions?.in)
+    if (inRef !== undefined) {
+      const windowEnd = clipB.start + inRef.duration
+      if (t >= clipB.start && t <= windowEnd) {
+        const sample = evaluateTransition({ ref: inRef, clipAEnd: clipB.start, t })
+        return { clipA, clipB, sample }
+      }
+    }
+  }
+  return null
+}
+
+export interface TransitionModifier {
+  opacity: number
+  tx: number
+  ty: number
+  scale: number
+}
+
+export function getTransitionModifier(
+  track: ProjectTrack,
+  clipId: string,
+  t: number
+): TransitionModifier {
+  const activeTrans = getActiveTransitionForTrack(track, t)
+  if (activeTrans === null) {
+    return { opacity: 1, tx: 0, ty: 0, scale: 1 }
+  }
+
+  if (activeTrans.clipA.id === clipId) {
+    return {
+      opacity: activeTrans.sample.aOpacity,
+      tx: activeTrans.sample.aTx,
+      ty: activeTrans.sample.aTy,
+      scale: activeTrans.sample.aScale
+    }
+  }
+
+  if (activeTrans.clipB.id === clipId) {
+    return {
+      opacity: activeTrans.sample.bOpacity,
+      tx: activeTrans.sample.bTx,
+      ty: activeTrans.sample.bTy,
+      scale: activeTrans.sample.bScale
+    }
+  }
+
+  return { opacity: 1, tx: 0, ty: 0, scale: 1 }
+}
+
 export function visibleClipsAt(tracks: readonly ProjectTrack[], t: number): DrawItem[] {
   const items: DrawItem[] = []
   tracks.forEach((track, trackIndex) => {
     if (!DRAWN_TRACK_TYPES.has(track.type)) return
-    for (const clip of track.clips) {
-      const dur = clipDuration(clip)
-      if (t >= clip.start && t < clip.start + dur) {
-        items.push({ clip, track, trackIndex })
+
+    const activeTrans = getActiveTransitionForTrack(track, t)
+    if (activeTrans !== null) {
+      items.push({ clip: activeTrans.clipA, track, trackIndex })
+      items.push({ clip: activeTrans.clipB, track, trackIndex })
+    } else {
+      for (const clip of track.clips) {
+        const dur = clipDuration(clip)
+        if (t >= clip.start && t < clip.start + dur) {
+          items.push({ clip, track, trackIndex })
+        }
       }
     }
   })

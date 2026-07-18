@@ -141,6 +141,128 @@ exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift gua
 }
 `;
 
+exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(divine-revelation-gold) is stable > clip-style:divine-revelation-gold 1`] = `
+{
+  "animation": {
+    "in": {
+      "durationSec": 0.3,
+      "easing": "easeOut",
+      "preset": "fade",
+    },
+    "reveal": {
+      "easing": "linear",
+      "mode": "none",
+      "staggerSec": 0,
+    },
+  },
+  "text": {
+    "align": "center",
+    "effects": [
+      {
+        "enabled": true,
+        "intensity": 1,
+        "opacity": 1,
+        "params": {
+          "angle": 100,
+          "color": "#A05608",
+          "depth": 40,
+        },
+        "type": "3d",
+      },
+      {
+        "enabled": true,
+        "intensity": 1,
+        "opacity": 0.85,
+        "params": {
+          "angle": 90,
+          "highlight": "#FFFEF0",
+          "shadow": "#5C2D08",
+          "size": 3,
+        },
+        "type": "bevel",
+      },
+      {
+        "enabled": true,
+        "intensity": 0.5,
+        "opacity": 0.85,
+        "params": {
+          "color": "#FF9800",
+          "radius": 32,
+        },
+        "type": "glow",
+      },
+    ],
+    "fill": {
+      "angle": 90,
+      "opacity": 1,
+      "type": "gradient",
+      "value": [
+        {
+          "color": "#FFF5B8",
+          "offset": 0,
+        },
+        {
+          "color": "#FFD54F",
+          "offset": 0.2,
+        },
+        {
+          "color": "#E8A317",
+          "offset": 0.45,
+        },
+        {
+          "color": "#C87A0A",
+          "offset": 0.6,
+        },
+        {
+          "color": "#A05608",
+          "offset": 0.8,
+        },
+        {
+          "color": "#6B3506",
+          "offset": 1,
+        },
+      ],
+    },
+    "font": {
+      "bold": true,
+      "fallback": [
+        "Noto Sans Tamil",
+        "Noto Sans Tamil",
+        "sans-serif",
+      ],
+      "family": "Baloo Thambi 2",
+      "italic": false,
+      "letterSpacing": 1.5,
+      "lineHeight": 1.1,
+      "size": 160,
+      "weight": 800,
+    },
+    "shadow": {
+      "angle": 90,
+      "blur": 20,
+      "color": "#1A0A00",
+      "distance": 10,
+      "inner": false,
+      "long": false,
+      "opacity": 0.65,
+    },
+    "stroke": [
+      {
+        "color": "#2A1200",
+        "width": 14,
+      },
+      {
+        "color": "#8B4513",
+        "width": 5,
+      },
+    ],
+  },
+  "transformPatch": {
+    "y": 0,
+  },
+}
+`;
+
 exports[`P5.10 — resolved clip-style snapshot per preset (P5.4 stamp drift guard) > captionPresetToClipStyle(grand-temple-gold) is stable > clip-style:grand-temple-gold 1`] = `
 {
   "animation": {
@@ -1399,6 +1521,70 @@ exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > preset
   },
   "strike": null,
   "stroke": [],
+  "underline": null,
+}
+`;
+
+exports[`P5.10 — resolved draw-spec snapshot per preset (drift guard) > presetToTextDrawSpec(divine-revelation-gold) is stable > draw-spec:divine-revelation-gold 1`] = `
+{
+  "background": null,
+  "fill": {
+    "opacity": 1,
+    "stops": [
+      {
+        "color": "#FFF5B8",
+        "offset": 0,
+      },
+      {
+        "color": "#FFD54F",
+        "offset": 0.2,
+      },
+      {
+        "color": "#E8A317",
+        "offset": 0.45,
+      },
+      {
+        "color": "#C87A0A",
+        "offset": 0.6,
+      },
+      {
+        "color": "#A05608",
+        "offset": 0.8,
+      },
+      {
+        "color": "#6B3506",
+        "offset": 1,
+      },
+    ],
+    "type": "gradient",
+  },
+  "font": "800 160px "Baloo Thambi 2", "Noto Sans Tamil", sans-serif",
+  "fontSizePx": 160,
+  "highlight": null,
+  "letterSpacing": 1.5,
+  "lineHeight": 1.1,
+  "shadow": {
+    "angleDeg": 90,
+    "blur": 20,
+    "color": "rgba(26, 10, 0, 0.65)",
+    "distance": 10,
+    "kind": "drop",
+    "offset": {
+      "x": 0,
+      "y": 10,
+    },
+  },
+  "strike": null,
+  "stroke": [
+    {
+      "color": "rgba(42, 18, 0, 1)",
+      "width": 14,
+    },
+    {
+      "color": "rgba(139, 69, 19, 1)",
+      "width": 5,
+    },
+  ],
   "underline": null,
 }
 `;

@@ -373,3 +373,44 @@ describe('rotatedClipCorners', () => {
     expect(corners[0].y).toBeCloseTo(0)
   })
 })
+
+describe('visibleClipsAt with transitions', () => {
+  it('returns both adjacent clips during the transition window', () => {
+    const tracks: ProjectTrack[] = [
+      {
+        id: 't',
+        type: 'video',
+        clips: [
+          clip({
+            id: 'a',
+            start: 0,
+            in: 0,
+            out: 3,
+            transitions: { out: { presetId: 'dissolve', duration: 0.5, params: {} } }
+          }),
+          clip({
+            id: 'b',
+            start: 3,
+            in: 0,
+            out: 3
+          })
+        ]
+      }
+    ]
+
+    // At t = 2.0 (outside transition), only clip A is visible
+    const items20 = visibleClipsAt(tracks, 2.0)
+    expect(items20).toHaveLength(1)
+    expect(items20[0].clip.id).toBe('a')
+
+    // At t = 2.7 (inside transition window [2.5, 3.0]), both clip A and clip B are visible
+    const items27 = visibleClipsAt(tracks, 2.7)
+    expect(items27).toHaveLength(2)
+    expect(items27.map(i => i.clip.id)).toEqual(['a', 'b'])
+
+    // At t = 3.5 (past transition, inside clip B normal span), only clip B is visible
+    const items35 = visibleClipsAt(tracks, 3.5)
+    expect(items35).toHaveLength(1)
+    expect(items35[0].clip.id).toBe('b')
+  })
+})
