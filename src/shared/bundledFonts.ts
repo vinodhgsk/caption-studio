@@ -50,6 +50,11 @@ export const BUNDLED_FONT_FACES: readonly BundledFontFace[] = [
   { family: 'JF Nathiya', file: '1763731182_JFNathiya.ttf', weight: '400', style: 'normal' },
   { family: 'JF Kamala', file: 'Ka_Kamala.ttf', weight: '400', style: 'normal' },
   { family: 'Ka Sangeetham', file: 'Ka)Sangeetham.TTF', weight: '700', style: 'normal' },
+  { family: 'BAMINI-Tamil01', file: 'BAMINI-Tamil01.ttf', weight: '400', style: 'normal' },
+  { family: 'BAMINI-Tamil22', file: 'BAMINI-Tamil22.ttf', weight: '400', style: 'normal' },
+  { family: 'BAMINI-Tamil24', file: 'BAMINI-Tamil24.ttf', weight: '400', style: 'normal' },
+  { family: 'BAMINI-Tamil30', file: 'BAMINI-Tamil30.ttf', weight: '400', style: 'normal' },
+  { family: 'BAMINI-Tamil51', file: 'BAMINI-Tamil51.ttf', weight: '400', style: 'normal' },
   
   { family: 'Noto Serif Tamil', file: 'NotoSerifTamil-Regular.ttf', weight: '400', style: 'normal' },
   { family: 'Noto Serif Tamil', file: 'NotoSerifTamil-Bold.ttf', weight: '700', style: 'normal' },

@@ -205,6 +205,11 @@ export const BUNDLED_FONTS: readonly FontEntry[] = [
   bundled('JF Nathiya', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
   bundled('JF Kamala', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
   bundled('Ka Sangeetham', 'decorative', ['tamil', 'latin'], { weights: [700], styles: ['normal'] }),
+  bundled('BAMINI-Tamil01', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('BAMINI-Tamil22', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('BAMINI-Tamil24', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('BAMINI-Tamil30', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('BAMINI-Tamil51', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
   
   bundled('Noto Sans Telugu', 'sans', ['telugu', 'latin']),
   bundled('Noto Serif Telugu', 'serif', ['telugu', 'latin']),
