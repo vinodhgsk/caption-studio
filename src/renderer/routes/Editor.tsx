@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { ProjectMeta, ProjectRef } from '../../shared/storage'
 import { useProjectStore } from '@/store/projectStore'
+import { useEditorStore } from '@/store/editorStore'
 import { canRedo, canUndo } from '@/store/commandStack'
 import { parseEditorParams } from './editorParams'
 import { EditorToolbar } from './editor/EditorToolbar'
@@ -47,6 +48,8 @@ export default function Editor(): JSX.Element {
   const redo = useProjectStore((s) => s.redo)
   const saveProject = useProjectStore((s) => s.saveProject)
   const saveStatus = useProjectStore((s) => s.saveStatus)
+  const timelineLayout = useEditorStore((s) => s.timelineLayout)
+  const setTimelineLayout = useEditorStore((s) => s.setTimelineLayout)
 
   const { flushAutosave } = useAutosave()
 
@@ -186,11 +189,18 @@ export default function Editor(): JSX.Element {
         canRedo={canRedo(commandStack)}
         onUndo={() => undo()}
         onRedo={() => redo()}
+        timelineLayout={timelineLayout}
+        onToggleLayout={() => setTimelineLayout(timelineLayout === 'full-width' ? 'docked' : 'full-width')}
       />
-      <div className="flex flex-1 overflow-hidden">
-        <LeftRail />
-        <div className="flex flex-1 flex-col overflow-hidden relative">
-          <PreviewRegion aspect={previewAspect} />
+      {timelineLayout === 'full-width' ? (
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <div className="flex flex-1 overflow-hidden">
+            <LeftRail />
+            <div className="flex flex-1 relative overflow-hidden">
+              <PreviewRegion aspect={previewAspect} />
+            </div>
+            <PanelContainer />
+          </div>
           {/* Vertical drag handle */}
           <div
             role="separator"
@@ -205,8 +215,28 @@ export default function Editor(): JSX.Element {
           </div>
           <TimelineRegion height={timelineHeight} />
         </div>
-        <PanelContainer />
-      </div>
+      ) : (
+        <div className="flex flex-1 overflow-hidden">
+          <LeftRail />
+          <div className="flex flex-1 flex-col overflow-hidden relative">
+            <PreviewRegion aspect={previewAspect} />
+            {/* Vertical drag handle */}
+            <div
+              role="separator"
+              aria-label="Resize timeline"
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+              className="relative z-20 flex h-2 w-full cursor-row-resize items-center justify-center bg-transparent shrink-0 group -my-1"
+            >
+              <div className="h-px w-full bg-line group-hover:bg-accent/70 group-active:bg-accent transition-colors" />
+            </div>
+            <TimelineRegion height={timelineHeight} />
+          </div>
+          <PanelContainer />
+        </div>
+      )}
     </main>
   )
 }

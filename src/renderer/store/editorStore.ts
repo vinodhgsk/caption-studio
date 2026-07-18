@@ -12,16 +12,20 @@ export interface EditorState {
   selectedClipId: string | null
   playhead: number
   activePanel: PanelId
+  timelineLayout: 'docked' | 'full-width'
   select: (id: string | null) => void
   setPlayhead: (time: number) => void
   setActivePanel: (panel: PanelId) => void
+  setTimelineLayout: (layout: 'docked' | 'full-width') => void
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
   selectedClipId: null,
   playhead: 0,
   activePanel: 'media',
+  timelineLayout: 'full-width',
   select: (id) => set({ selectedClipId: id }),
   setPlayhead: (time) => set({ playhead: time }),
-  setActivePanel: (panel) => set({ activePanel: panel })
+  setActivePanel: (panel) => set({ activePanel: panel }),
+  setTimelineLayout: (layout) => set({ timelineLayout: layout })
 }))

@@ -11,6 +11,8 @@ interface EditorToolbarProps {
   canRedo: boolean
   onUndo: () => void
   onRedo: () => void
+  timelineLayout: 'docked' | 'full-width'
+  onToggleLayout: () => void
 }
 
 /** Teal auto-save label shown in the toolbar centre-left area. */
@@ -87,7 +89,9 @@ export function EditorToolbar({
   canUndo,
   canRedo,
   onUndo,
-  onRedo
+  onRedo,
+  timelineLayout,
+  onToggleLayout
 }: EditorToolbarProps): JSX.Element {
   return (
     <header className="flex h-11 shrink-0 items-center justify-between border-b border-line bg-surface-1 px-3 z-30">
@@ -162,6 +166,27 @@ export function EditorToolbar({
         {/* Divider */}
         <span className="mx-1 h-5 w-px bg-line" />
 
+        {/* Layout Toggle */}
+        <ToolBtn
+          label="Toggle Layout"
+          title={timelineLayout === 'full-width' ? 'Switch to Docked Layout' : 'Switch to Full-Width Layout'}
+          onClick={onToggleLayout}
+        >
+          {timelineLayout === 'full-width' ? (
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 14h16M9 4v10M15 4v10" />
+            </svg>
+          ) : (
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 14h16M14 4v10" />
+            </svg>
+          )}
+        </ToolBtn>
+
+        {/* Divider */}
+        <span className="mx-1 h-5 w-px bg-line" />
         {/* Save shortcut button */}
         <ToolBtn label="Save" title="Save (Ctrl+S)" onClick={onSave}>
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
