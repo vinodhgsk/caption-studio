@@ -35,6 +35,22 @@ export const BUNDLED_FONT_FACES: readonly BundledFontFace[] = [
   { family: 'Anek Tamil', file: 'AnekTamil.ttf', weight: '100 800', style: 'normal' },
   { family: 'Hind Madurai', file: 'HindMadurai-SemiBold.ttf', weight: '600', style: 'normal' },
   { family: 'Pavanam', file: 'Pavanam-Regular.ttf', weight: '400', style: 'normal' },
+  
+  // --- Trendy new Tamil fonts ----
+  { family: 'Coiny', file: 'Coiny-Regular.ttf', weight: '400', style: 'normal' },
+  { family: 'Kavivanar', file: 'Kavivanar-Regular.ttf', weight: '400', style: 'normal' },
+  { family: 'Meera Inimai', file: 'MeeraInimai-Regular.ttf', weight: '400', style: 'normal' },
+  { family: 'Tiro Tamil', file: 'TiroTamil-Regular.ttf', weight: '400', style: 'normal' },
+  { family: 'Tiro Tamil', file: 'TiroTamil-Italic.ttf', weight: '400', style: 'italic' },
+  
+  // --- User added Tamil fonts ----
+  { family: 'Ka Kalvettu', file: '1743920620_020.TTF', weight: '700', style: 'normal' },
+  { family: 'Ka Dhool', file: '1744012265_029.TTF', weight: '700', style: 'normal' },
+  { family: 'Ka Thiramai', file: '1744107561_038.TTF', weight: '700', style: 'normal' },
+  { family: 'JF Nathiya', file: '1763731182_JFNathiya.ttf', weight: '400', style: 'normal' },
+  { family: 'JF Kamala', file: 'Ka_Kamala.ttf', weight: '400', style: 'normal' },
+  { family: 'Ka Sangeetham', file: 'Ka)Sangeetham.TTF', weight: '700', style: 'normal' },
+  
   { family: 'Noto Serif Tamil', file: 'NotoSerifTamil-Regular.ttf', weight: '400', style: 'normal' },
   { family: 'Noto Serif Tamil', file: 'NotoSerifTamil-Bold.ttf', weight: '700', style: 'normal' },
   { family: 'Noto Sans Tamil', file: 'NotoSansTamil-Regular.ttf', weight: '400', style: 'normal' },

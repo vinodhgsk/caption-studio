@@ -191,6 +191,21 @@ export const BUNDLED_FONTS: readonly FontEntry[] = [
   bundled('Hind Madurai', 'sans', ['tamil', 'latin'], { weights: [400, 500, 600, 700] }),
   // Pavanam — elegant single-weight display; a lighter ornamental option.
   bundled('Pavanam', 'sans', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  
+  // --- Trendy new Tamil fonts ----
+  bundled('Coiny', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('Kavivanar', 'script', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('Meera Inimai', 'sans', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('Tiro Tamil', 'serif', ['tamil', 'latin'], { weights: [400] }),
+  
+  // --- User added Tamil fonts ----
+  bundled('Ka Kalvettu', 'decorative', ['tamil', 'latin'], { weights: [700], styles: ['normal'] }),
+  bundled('Ka Dhool', 'decorative', ['tamil', 'latin'], { weights: [700], styles: ['normal'] }),
+  bundled('Ka Thiramai', 'decorative', ['tamil', 'latin'], { weights: [700], styles: ['normal'] }),
+  bundled('JF Nathiya', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('JF Kamala', 'decorative', ['tamil', 'latin'], { weights: [400], styles: ['normal'] }),
+  bundled('Ka Sangeetham', 'decorative', ['tamil', 'latin'], { weights: [700], styles: ['normal'] }),
+  
   bundled('Noto Sans Telugu', 'sans', ['telugu', 'latin']),
   bundled('Noto Serif Telugu', 'serif', ['telugu', 'latin']),
   bundled('Noto Sans Malayalam', 'sans', ['malayalam', 'latin']),
